@@ -102,7 +102,8 @@ public class Company
     public DateTime? DateModified { get; set; }
 }
 ````
-##### Validation
+
+## Validation
 ````C#
 Dictionary<string, string> errors = db.ValidateEntity(company);
 
