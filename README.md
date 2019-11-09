@@ -23,13 +23,21 @@ install from [MYeORM nuget package](https://www.nuget.org/packages/MYeORM/)
 
 ## Quick Overview
 
+###### Register Connection
 ````c#
-// register the connection once
-string dbId = OrmDbAgent.RegisterConnectionType<MySql.Data.MySqlClient.MySqlConnection>("Server=192.168.75.150;Port=3306;Database=OrmSampleDb;User Id=root;Password=****;SslMode=None;");
+using MYeORM;
+using MYeORM.Client;
+using MYeORM.Client.OrmAttributes;
 
+string conString = "Server=192.168.75.150;Port=3306;Database=OrmSampleDb;User Id=userid;Password=pass;SslMode=None;";
+string dbId = OrmDbAgent.RegisterConnectionType<MySql.Data.MySqlClient.MySqlConnection>(conString);
+````
+###### CRUD
+````C#
 // create db agent
 var db = new OrmDbAgent(dbId);
 
+// new company
 var company = new Company() { CompanyId = db.NewGuid(), Title = "Microsoft", Phone = "", Email = "example@microsoft.com" };
 
 // insert
@@ -41,48 +49,60 @@ company = db.GetById<Company>(company.CompanyId);
 // update
 company.Title = "Microsoft Corporation";
 db.Update(company);
-// or
-db.DeleteById<Company>(company.CompanyId);
 
 // delete
 db.Delete(company);
+    // OR
+db.DeleteById<Company>(company.CompanyId);
 
 // save(insert or update)
 db.Save(company);
 
-
-    public class Company
-    {
-        [Key]
-        public Guid CompanyId { get; set; }
-
-        [MaxLength(100)]
-        public string Title { get; set; }
-
-        [MaxLength(25)]
-        public string Phone { get; set; }
-
-        [MaxLength(125), EmailAddress]
-        public string Email { get; set; }
-
-        [IgnoreForUpdate]
-        public DateTime? DateCreated { get; set; } = DateTime.Now;
-
-        [IgnoreForInsert]
-        public DateTime? DateModified { get; set; }
-    }
 ````
 ##### Transactions
 ````C#
 var transactionId = db.NewGuid().ToString();
 
 db.Insert(company, transactionId);
+...do other operations
 
 db.CommitTransaction(transactionId);
     // OR
 db.RollbackTransaction(transactionId);
 ````
 
+###### threadsafe CRUD
+DB.Insert(company, dbId);
+
+company = DB.GetById<Company>(company.CompanyId, dbbId);
+
+DB.Update(company, dbbId);
+DB.Delete(company, dbbId);
+DB.Save(company, dbId);
+
+###### Company class
+````C#
+public class Company
+{
+    [Key]
+    public Guid CompanyId { get; set; }
+
+    [MaxLength(100)]
+    public string Title { get; set; }
+
+    [MaxLength(25)]
+    public string Phone { get; set; }
+
+    [MaxLength(150), EmailAddress]
+    public string Email { get; set; }
+
+    [IgnoreForUpdate]
+    public DateTime? DateCreated { get; set; } = DateTime.Now;
+
+    [IgnoreForInsert]
+    public DateTime? DateModified { get; set; }
+}
+````
 
 ## Data Listing
 
