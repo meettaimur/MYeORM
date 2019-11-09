@@ -25,6 +25,66 @@ install from [MYeORM nuget package](https://www.nuget.org/packages/MYeORM/)
 
 ## CRUD Operations
 
+````c#
+// register the connection once
+string dbId = OrmDbAgent.RegisterConnectionType<MySql.Data.MySqlClient.MySqlConnection>("Server=192.168.75.150;Port=3306;Database=OrmSampleDb;User Id=root;Password=****;SslMode=None;");
+
+// create db agent
+var db = new OrmDbAgent(dbId);
+
+var company = new Company() { CompanyId = db.NewGuid(), Title = "Microsoft", Phone = "", Email = "a" };
+
+// insert
+db.Insert(company);
+
+// find
+company = db.GetById<Company>(company.CompanyId);
+
+// update
+company.Title = "Microsoft Corporation";
+db.Update(company);
+db.DeleteById<Company>(company.CompanyId);
+
+// delete
+db.Delete(company);
+
+// save(insert or update)
+db.Save(company);
+
+
+    public class Company
+    {
+        [Key]
+        public Guid CompanyId { get; set; }
+
+        [MaxLength(100)]
+        public string Title { get; set; }
+
+        [MaxLength(25)]
+        public string Phone { get; set; }
+
+        [MaxLength(125), EmailAddress]
+        public string Email { get; set; }
+
+        [IgnoreForUpdate]
+        public DateTime? DateCreated { get; set; } = DateTime.Now;
+
+        [IgnoreForInsert]
+        public DateTime? DateModified { get; set; }
+    }
+````
+###### Transactions
+````C#
+var transactionId = db.NewGuid().ToString();
+
+db.Save(company, transactionId);
+
+db.CommitTransaction(transactionId);
+    // OR
+db.RollbackTransaction(transactionId);
+````
+
+
 ## Data Listing
 
 ## DB Migrations
