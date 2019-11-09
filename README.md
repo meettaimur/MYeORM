@@ -15,7 +15,7 @@ A high performance ORM, for those who prefer SQL for optimal performance.
 * DB Migrations supported without external depdency
 * DB Migrations management simplified (a different approach than Entity Framework)
 * Data Listing support tables/views, filtering, sorting and paging
-* not tested but can be used with MariaDB, Percona Server, Amazon Aurora, Azure Database for MySQL, Google Cloud SQL for MySQL, YugaByte, TimescaleDB, CockroachDB or with other protocol compatible databases
+* Can be used but not yet tested with MariaDB, Percona Server, Amazon Aurora, Azure Database for MySQL, Google Cloud SQL for MySQL, YugaByte, TimescaleDB, CockroachDB or with other protocol compatible databases
 
 
 ## Installation
