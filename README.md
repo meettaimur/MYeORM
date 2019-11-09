@@ -32,7 +32,7 @@ string dbId = OrmDbAgent.RegisterConnectionType<MySql.Data.MySqlClient.MySqlConn
 // create db agent
 var db = new OrmDbAgent(dbId);
 
-var company = new Company() { CompanyId = db.NewGuid(), Title = "Microsoft", Phone = "", Email = "a" };
+var company = new Company() { CompanyId = db.NewGuid(), Title = "Microsoft", Phone = "", Email = "example@microsoft.com" };
 
 // insert
 db.Insert(company);
