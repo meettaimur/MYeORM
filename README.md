@@ -23,8 +23,6 @@ install from [MYeORM nuget package](https://www.nuget.org/packages/MYeORM/)
 
 ## Quick Overview
 
-## CRUD Operations
-
 ````c#
 // register the connection once
 string dbId = OrmDbAgent.RegisterConnectionType<MySql.Data.MySqlClient.MySqlConnection>("Server=192.168.75.150;Port=3306;Database=OrmSampleDb;User Id=root;Password=****;SslMode=None;");
@@ -43,6 +41,7 @@ company = db.GetById<Company>(company.CompanyId);
 // update
 company.Title = "Microsoft Corporation";
 db.Update(company);
+// or
 db.DeleteById<Company>(company.CompanyId);
 
 // delete
@@ -73,11 +72,11 @@ db.Save(company);
         public DateTime? DateModified { get; set; }
     }
 ````
-###### Transactions
+##### Transactions
 ````C#
 var transactionId = db.NewGuid().ToString();
 
-db.Save(company, transactionId);
+db.Insert(company, transactionId);
 
 db.CommitTransaction(transactionId);
     // OR
