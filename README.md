@@ -34,7 +34,7 @@ string dbId = OrmDbAgent.RegisterConnectionType<MySql.Data.MySqlClient.MySqlConn
 ````
 ###### CRUD
 ````C#
-// create db agent
+// create db agent, hint: OrmDbAgent
 var db = new OrmDbAgent(dbId);
 
 // new company
@@ -57,7 +57,6 @@ db.DeleteById<Company>(company.CompanyId);
 
 // save(insert or update)
 db.Save(company);
-
 ````
 ##### Transactions
 ````C#
@@ -70,16 +69,16 @@ db.CommitTransaction(transactionId);
     // OR
 db.RollbackTransaction(transactionId);
 ````
-
-###### threadsafe CRUD
+###### Threadsafe CRUD
+````C#
 DB.Insert(company, dbId);
 
-company = DB.GetById<Company>(company.CompanyId, dbbId);
+company = DB.GetById<Company>(company.CompanyId, dbId);
 
-DB.Update(company, dbbId);
-DB.Delete(company, dbbId);
+DB.Update(company, dbId);
+DB.Delete(company, dbId);
 DB.Save(company, dbId);
-
+````
 ###### Company class
 ````C#
 public class Company
@@ -101,6 +100,42 @@ public class Company
 
     [IgnoreForInsert]
     public DateTime? DateModified { get; set; }
+}
+````
+##### Validation
+````C#
+Dictionary<string, string> errors = db.ValidateEntity(company);
+````
+where 
+Key = property name or caption and 
+Value = error message (default or custom)
+````C#
+// set validation Attributes to properties
+public class Company
+{
+    [Key]
+    public Guid CompanyId { get; set; }
+
+    [MaxLength(100), Required(errorMessage: "Title is required")]
+    public string Title { get; set; }
+
+    [MaxLength(25), MinLength(7)]
+    public string Phone { get; set; }
+
+    [MaxLength(125), EmailAddress(errorMessage: "invalid email address")]
+    public string Email { get; set; }
+
+    [Required(groupId: 1, errorMessage: "email2 or email3, atleast one of them is required"), EmailAddress]
+    public string Email2 { get; set; }
+
+    [Required(groupId: 1), EmailAddress]
+    public string Email3 { get; set; }
+
+    [ValueRange(1, 10, errorMessage: "given value is out of range")]
+    public int? IntegerColumn { get; set; }
+
+    [ValueRange(1.5, 10.5, errorMessage: "given value is out of range")]
+    public double? DoubleColumn { get; set; }
 }
 ````
 
