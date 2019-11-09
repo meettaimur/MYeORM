@@ -1,7 +1,7 @@
 # MYeORM
 A high performance ORM, for those who prefer SQL for optimal performance.
 
-###### As micro ORM
+###### As Micro ORM
 * provides extension methods to IDbConnection, so can be used with any database provider
 * use it like any other micro orm like Dapper
 * provides validation attributes like Required, EmailAddress, MaxLength, MinLength, ValueRange, Required(groupId)
