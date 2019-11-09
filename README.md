@@ -105,12 +105,12 @@ public class Company
 ##### Validation
 ````C#
 Dictionary<string, string> errors = db.ValidateEntity(company);
-````
-where 
-Key = property name or caption and 
-Value = error message (default or custom)
-````C#
-// set validation Attributes to properties
+
+// where
+//      Key = property name or caption
+//      Value = error message (default or custom)
+
+// see Attributes for validation
 public class Company
 {
     [Key]
