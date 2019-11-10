@@ -32,7 +32,7 @@ using MYeORM.Client.OrmAttributes;
 string conString = "Server=192.168.75.150;Port=3306;Database=OrmSampleDb;User Id=userid;Password=pass;SslMode=None;";
 string dbId = OrmDbAgent.RegisterConnectionType<MySql.Data.MySqlClient.MySqlConnection>(conString);
 ````
-##### CRUD
+##### CRUD Operations
 ````C#
 // create db agent, hint: OrmDbAgent
 var db = new OrmDbAgent(dbId);
@@ -58,6 +58,15 @@ db.DeleteById<Company>(company.CompanyId);
 // save(insert or update)
 db.Save(company);
 ````
+##### Validation
+````C#
+Dictionary<string, string> errors = db.ValidateEntity(company);
+
+// where
+//      Key = property name or caption
+//      Value = error message (default or custom)
+
+````
 ##### Transactions
 ````C#
 var transactionId = db.NewGuid().ToString();
@@ -69,7 +78,7 @@ db.CommitTransaction(transactionId);
     // OR
 db.RollbackTransaction(transactionId);
 ````
-##### Threadsafe CRUD
+##### Threadsafe CRUD Operations
 Use DB class for threadsafe operations. The OrmAgent is also just a wrapper around DB class.
 ````C#
 DB.Insert(company, dbId);
@@ -79,6 +88,20 @@ company = DB.GetById<Company>(company.CompanyId, dbId);
 DB.Update(company, dbId);
 DB.Delete(company, dbId);
 DB.Save(company, dbId);
+````
+##### Query Data
+###### get items
+````C#
+// all
+var companies = db.GetAll<Company>();
+
+// ordered
+companies = db.GetAll<Company>(orderByClause: "Title");
+companies = db.GetAll<Company>(orderByClause: nameof(company.Title));
+companies = db.GetAll<Company>(orderByClause: "DateCreated DESC");
+
+// filtered and ordered
+companies = db.GetAll<Company>("Title LIKE '%micro%'", orderByClause: "Title");
 ````
 ##### Company class
 ````C#
@@ -103,18 +126,6 @@ public class Company
     public DateTime? DateModified { get; set; }
 }
 ````
-
-##### Validation
-````C#
-Dictionary<string, string> errors = db.ValidateEntity(company);
-
-// where
-//      Key = property name or caption
-//      Value = error message (default or custom)
-
-
-````
-
 ## Data Listing
 
 ## DB Migrations
