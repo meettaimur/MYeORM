@@ -103,7 +103,7 @@ public class Company
 }
 ````
 
-## Validation
+##### Validation
 ````C#
 Dictionary<string, string> errors = db.ValidateEntity(company);
 
@@ -111,33 +111,7 @@ Dictionary<string, string> errors = db.ValidateEntity(company);
 //      Key = property name or caption
 //      Value = error message (default or custom)
 
-// see Attributes for validation
-public class Company
-{
-    [Key]
-    public Guid CompanyId { get; set; }
 
-    [MaxLength(100), Required(errorMessage: "Title is required")]
-    public string Title { get; set; }
-
-    [MaxLength(25), MinLength(7)]
-    public string Phone { get; set; }
-
-    [MaxLength(125), EmailAddress(errorMessage: "invalid email address")]
-    public string Email { get; set; }
-
-    [Required(groupId: 1, errorMessage: "email2 or email3, atleast one of them is required"), EmailAddress]
-    public string Email2 { get; set; }
-
-    [Required(groupId: 1), EmailAddress]
-    public string Email3 { get; set; }
-
-    [ValueRange(1, 10, errorMessage: "given value is out of range")]
-    public int? IntegerColumn { get; set; }
-
-    [ValueRange(1.5, 10.5, errorMessage: "given value is out of range")]
-    public double? DoubleColumn { get; set; }
-}
 ````
 
 ## Data Listing
