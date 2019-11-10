@@ -1,12 +1,12 @@
 # MYeORM
 A high performance ORM, for those who prefer SQL for optimal performance.
 
-###### As Micro ORM
+##### As Micro ORM
 * provides extension methods to IDbConnection, so can be used with any database provider
 * use it like any other micro orm like Dapper
 * provides validation attributes like Required, EmailAddress, MaxLength, MinLength, ValueRange, Required(groupId)
 
-###### As Hybrid ORM
+##### As Hybrid ORM
 * has built-in support for SQLServer, Oracle, MySQL, PostgreSQL and SQLite without external dependency
 * support CRUD operations
 * support transactions but in a way better than traditional approach
@@ -23,7 +23,7 @@ install from [MYeORM nuget package](https://www.nuget.org/packages/MYeORM/)
 
 ## Quick Overview
 
-###### Register Connection
+##### Register Connection
 ````c#
 using MYeORM;
 using MYeORM.Client;
@@ -32,7 +32,7 @@ using MYeORM.Client.OrmAttributes;
 string conString = "Server=192.168.75.150;Port=3306;Database=OrmSampleDb;User Id=userid;Password=pass;SslMode=None;";
 string dbId = OrmDbAgent.RegisterConnectionType<MySql.Data.MySqlClient.MySqlConnection>(conString);
 ````
-###### CRUD
+##### CRUD
 ````C#
 // create db agent, hint: OrmDbAgent
 var db = new OrmDbAgent(dbId);
@@ -69,7 +69,8 @@ db.CommitTransaction(transactionId);
     // OR
 db.RollbackTransaction(transactionId);
 ````
-###### Threadsafe CRUD
+##### Threadsafe CRUD
+Use DB class for threadsafe operations. The OrmAgent is also just a wrapper around DB class.
 ````C#
 DB.Insert(company, dbId);
 
@@ -79,7 +80,7 @@ DB.Update(company, dbId);
 DB.Delete(company, dbId);
 DB.Save(company, dbId);
 ````
-###### Company class
+##### Company class
 ````C#
 public class Company
 {
