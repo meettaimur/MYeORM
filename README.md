@@ -1,5 +1,5 @@
 # MYeORM
-A high performance ORM, for those who prefer SQL for optimal performance.
+A high performance ORM, for those who prefer SQL to achieve optimal performance.
 
 ##### As Micro ORM
 * provides extension methods to IDbConnection, so can be used with any database provider
@@ -80,7 +80,7 @@ db.CommitTransaction(transactionId);
 db.RollbackTransaction(transactionId);
 ````
 ##### Threadsafe CRUD Operations
-Use DB class for threadsafe operations. The OrmAgent is also just a wrapper around DB class.
+Use DB class for threadsafe operations directly instead OrmDbAgent.
 ````C#
 DB.Insert(company, dbId);
 
@@ -103,8 +103,22 @@ companies = db.GetAll<Company>(orderByClause: "DateCreated DESC");
 
 // filtered and ordered
 companies = db.GetAll<Company>("Title LIKE '%micro%'", orderByClause: "Title");
+
+// to entity
+companies = db.Query<Company>("SELECT * FROM Company");
+
+// to DataTable
+var table = db.QueryToDataTable("SELECT * FROM Company");
+
+// query few column(s)
+companies = db.Query<Company>("SELECT CompanyId FROM Company");
+companies = db.Query<Company>("SELECT CompanyId, Title FROM Company ORDER BY Title");
+
+// query few column(s) to another class
+var comboList = db.Query<CompanyComboItem>("SELECT CompanyId, Title FROM Company ORDER BY Title");
+
 ````
-###### cross rdbms parameterized filtering
+###### cross rdbms parameterized filtering and paging
 ````C#
 var userInput = "micro";
 
@@ -125,7 +139,20 @@ companies = db.Query<Company>($"SELECT * FROM Company WHERE {filter} ORDER BY Ti
 int pageSize = 25;
 var firstPage = db.Query<Company>(db.ToPagedQuery(0, pageSize, $"SELECT * FROM Company WHERE {filter} ORDER BY Title"), filterParam);
 var secondPage = db.Query<Company>(db.ToPagedQuery(25, pageSize, $"SELECT * FROM Company WHERE {filter} ORDER BY Title"), filterParam);
+````
+###### queries with parameters
+````C#
+// anonymous class
+companies = db.Query<Company>("SELECT * FROM Company WHERE CompanyId = @CompanyId ORDER BY Title", new { CompanyId = company.CompanyId });
 
+// dictionary
+companies = db.Query<Company>("SELECT * FROM Company WHERE CompanyId = @CompanyId ORDER BY Title", new Dictionary<string, object>() { { "CompanyId", company.CompanyId } });
+
+// DbxParameter class
+companies = db.Query<Company>("SELECT * FROM Company WHERE CompanyId = @CompanyId ORDER BY Title", new DbxParameter("CompanyId", company.CompanyId));
+
+// standard cross database query
+companies = db.Query<Company>($"SELECT * FROM Company WHERE CompanyId = {db.ParamChar}CompanyId ORDER BY Title", new { CompanyId = company.CompanyId });
 ````
 ##### Company class
 ````C#
