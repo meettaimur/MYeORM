@@ -79,7 +79,7 @@ db.CommitTransaction(transactionId);
     // OR
 db.RollbackTransaction(transactionId);
 ````
-##### Threadsafe CRUD Operations
+##### Threadsafe Operations
 Use DB class for threadsafe operations directly instead OrmDbAgent.
 ````C#
 DB.Insert(company, dbId);
@@ -118,7 +118,7 @@ companies = db.Query<Company>("SELECT CompanyId, Title FROM Company ORDER BY Tit
 var comboList = db.Query<CompanyComboItem>("SELECT CompanyId, Title FROM Company ORDER BY Title");
 
 ````
-###### cross rdbms parameterized filtering and paging
+###### cross database parameterized filtering and paging
 ````C#
 var userInput = "micro";
 
@@ -153,6 +153,27 @@ companies = db.Query<Company>("SELECT * FROM Company WHERE CompanyId = @CompanyI
 
 // standard cross database query
 companies = db.Query<Company>($"SELECT * FROM Company WHERE CompanyId = {db.ParamChar}CompanyId ORDER BY Title", new { CompanyId = company.CompanyId });
+````
+##### Stored Procedures
+````C#
+companies = db.QueryStoredProcedure<Company>("GetAllCompanies");
+companies = db.QueryStoredProcedure<Company>("GetCompanyById", new { CompanyId = company.CompanyId });
+companies = db.QueryStoredProcedure<Company>("GetCompanyById", new DbxParameter("CompanyId", company.CompanyId));
+companies = db.QueryStoredProcedure<Company>("GetCompanyById", new DbxParameter("CompanyId", company.CompanyId) { Direction = ParameterDirection.Input });
+
+// Output parameter
+var paramList = new DbxParameters()
+{
+    new DbxParameter("CompanyId", company.CompanyId) { Direction = ParameterDirection.Input },
+    new DbxParameter("OutputParameterName", "") { Direction = ParameterDirection.Output }
+};
+db.ExecuteStoredProcedure("DeleteCompanyById", paramList);
+
+// now get OUT parameter value
+var outValue = paramList[1].Value;
+
+// scalar values
+var value = db.ExecuteScalarStoredProcedure("GenerateInvoiceCode");
 ````
 ##### Company class
 ````C#
