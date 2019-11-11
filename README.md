@@ -11,7 +11,7 @@ A high performance ORM, for those who prefer SQL to achieve optimal performance.
 * support CRUD operations
 * support transactions but in a way better than traditional approach
 * provides validation attributes
-* built-in Sequential Guid generator
+* provides sequential Guid generator
 * DB Migrations supported without external depdencies
 * DB Migrations management simplified (a different approach than Entity Framework)
 * Data Listing support tables/views, filtering, sorting and paging
@@ -19,7 +19,7 @@ A high performance ORM, for those who prefer SQL to achieve optimal performance.
 
 
 ## Installation
-get from [MYeORM nuget package](https://www.nuget.org/packages/MYeORM/)
+get [MYeORM nuget package](https://www.nuget.org/packages/MYeORM/)
 
 ## Overview
 
@@ -91,7 +91,6 @@ DB.Delete(company, dbId);
 DB.Save(company, dbId);
 ````
 ##### Extend OrmDbAgent
-As per app requirement inherit OrmDbAgent, like below
 ````C#
 public class LoggedUser : OrmDbAgent
 {
@@ -145,7 +144,7 @@ companies = db.Query<Company>("SELECT * FROM Company WHERE CompanyId = @CompanyI
 // standard cross database query
 companies = db.Query<Company>($"SELECT * FROM Company WHERE CompanyId = {db.ParamChar}CompanyId ORDER BY Title", new { CompanyId = company.CompanyId });
 ````
-###### cross database parameterized filtering and paging
+###### cross database parameterized queries with filtering and paging
 ````C#
 var userInput = "micro";
 
@@ -170,9 +169,10 @@ var secondPage = db.Query<Company>(db.ToPagedQuery(25, pageSize, $"SELECT * FROM
 ##### Stored Procedures
 ````C#
 companies = db.QueryStoredProcedure<Company>("GetAllCompanies");
-companies = db.QueryStoredProcedure<Company>("GetCompanyById", new { CompanyId = company.CompanyId });
-companies = db.QueryStoredProcedure<Company>("GetCompanyById", new DbxParameter("CompanyId", company.CompanyId));
-companies = db.QueryStoredProcedure<Company>("GetCompanyById", new DbxParameter("CompanyId", company.CompanyId) { Direction = ParameterDirection.Input });
+
+company = db.QueryStoredProcedure<Company>("GetCompanyById", new { CompanyId = company.CompanyId }).FirstOrDefault();
+company = db.QueryStoredProcedure<Company>("GetCompanyById", new DbxParameter("CompanyId", company.CompanyId)).FirstOrDefault();
+company = db.QueryStoredProcedure<Company>("GetCompanyById", new DbxParameter("CompanyId", company.CompanyId) { Direction = ParameterDirection.Input }).FirstOrDefault();
 
 // Output parameter
 var paramList = new DbxParameters()
@@ -190,7 +190,7 @@ var value = db.ExecuteScalarStoredProcedure("GenerateInvoiceCode");
 ````
 ## DB Migrations
 Built-in db migrations currently support only four major databases SQL Server, MySQL, Oracle, PostgreSQL
-##### Create class
+#### Create class
 ````C#
 public class Company
 {
@@ -207,27 +207,28 @@ public class Company
     public string Email { get; set; }
 }
 ````
-##### Generate Schema Scripts
+#### Generate Schema Script
 ````C#
+// generate script for mysql
 var script =  DbMigrations.Generate_CreateTable_Script(typeof(Company), "", DbServerType.MySQL);
 // OR
 script = DbMigrations.Generate_CreateTable_Script(new List<Type>() { typeof(Company) }, "", DbServerType.MySQL);
 ````
-generate script
+###### script generated
 ````SQL
 CREATE TABLE IF NOT EXISTS Company (CompanyId CHAR(36) BINARY DEFAULT '' NOT NULL,Title nvarchar(100),Phone nvarchar(25),Email nvarchar(150) , primary key (CompanyId)) engine=InnoDb auto_increment=0;
 ````
-##### Add Index to class property
+#### Add Index to property
 ````C#
 [MaxLength(150), EmailAddress, Index(isUnique:true)]
 public string Email { get; set; }
 ````
-re-generate script
+###### script generated
 ````SQL
 CREATE TABLE IF NOT EXISTS Company (CompanyId CHAR(36) BINARY DEFAULT '' NOT NULL,Title nvarchar(100),Phone nvarchar(25),Email nvarchar(150) , primary key (CompanyId)) engine=InnoDb auto_increment=0;
 CREATE UNIQUE INDEX IX_Email ON Company(Email DESC) using HASH;
 ````
-##### Add Properties to Company class
+#### Add Properties to class
 ````C#
 [DbMigrationAdd, IgnoreForUpdate]
 public DateTime? DateCreated { get; set; } = DateTime.Now;
@@ -235,14 +236,14 @@ public DateTime? DateCreated { get; set; } = DateTime.Now;
 [DbMigrationAdd, IgnoreForInsert]
 public DateTime? DateModified { get; set; }
 ````
-script generated for MySQL
+###### script generated for MySQL
 ````SQL
 CREATE TABLE IF NOT EXISTS Company (CompanyId CHAR(36) BINARY DEFAULT '' NOT NULL,Title nvarchar(100),Phone nvarchar(25),Email nvarchar(150),DateCreated datetime,DateModified datetime , primary key (CompanyId)) engine=InnoDb auto_increment=0;
 CREATE UNIQUE INDEX IX_Email ON Company(Email DESC) using HASH;
 ALTER TABLE Company ADD COLUMN DateCreated datetime;
 ALTER TABLE Company ADD COLUMN DateModified datetime;
 ````
-script generated for SQL Server
+###### script generated for SQL Server
 ````SQL
 CREATE TABLE [dbo].[Company] ([CompanyId] uniqueidentifier NOT NULL,[Title] nvarchar(100),[Phone] nvarchar(25),[Email] nvarchar(150),[DateCreated] datetime,[DateModified] datetime , CONSTRAINT [PK_Company] PRIMARY KEY ([CompanyId]));
 GO
@@ -253,7 +254,7 @@ GO
 ALTER TABLE [dbo].[Company] ADD [DateModified] datetime;
 GO
 ````
-script generated for Oracle
+###### script generated for Oracle
 ````SQL
 CREATE TABLE Company (CompanyId raw(16) NOT NULL,Title nvarchar2(100) NULL,Phone nvarchar2(25) NULL,Email nvarchar2(150) NULL,DateCreated date NULL,DateModified date NULL , CONSTRAINT PK_Company PRIMARY KEY (CompanyId));
 /
@@ -264,7 +265,7 @@ ALTER TABLE Company ADD DateCreated date NULL;
 ALTER TABLE Company ADD DateModified date NULL;
 /
 ````
-script generated for PostgreSQL
+###### script generated for PostgreSQL
 ````SQL
 CREATE TABLE IF NOT EXISTS public.Company (CompanyId uuid NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000',Title varchar(100),Phone varchar(25),Email varchar(150),DateCreated timestamp,DateModified timestamp , CONSTRAINT PK_Company PRIMARY KEY (CompanyId));
 CREATE UNIQUE INDEX IF NOT EXISTS IX_Email ON public.Company(Email);
