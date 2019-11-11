@@ -29,7 +29,8 @@ using MYeORM;
 using MYeORM.Client;
 using MYeORM.Client.OrmAttributes;
 using MYeORM.ViewsQuery;
-
+````
+````c#
 // to register MySQL connection
 string dbId = OrmDbAgent.RegisterConnectionType<MySql.Data.MySqlClient.MySqlConnection>("Server=192.168.75.150;Port=3306;Database=ormsampledb;User Id=userid;Password=pass;SslMode=None;");
 
