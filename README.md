@@ -1,7 +1,7 @@
 # MYeORM
 A high performance ORM, for those who prefer SQL to achieve optimal performance.
 
-##### As Micro ORM
+#### As Micro ORM
 * provides extension methods to IDbConnection, so can be used with any database provider
 * provides validation attributes like Required, EmailAddress, MaxLength, MinLength, ValueRange, Required(groupId)
 * use it like any other micro orm, like Dapper
@@ -12,7 +12,7 @@ using (var con = new Microsoft.Data.Sqlite.SqliteConnection("Data Source=ormsamp
 }
 ````
 
-##### As Hybrid ORM
+#### As Hybrid ORM
 * has built-in support for SQLServer, Oracle, MySQL, PostgreSQL and SQLite without external dependency
 * support CRUD operations
 * support transactions but in a way better than traditional approach
