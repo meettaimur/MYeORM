@@ -28,6 +28,7 @@ install from [MYeORM nuget package](https://www.nuget.org/packages/MYeORM/)
 using MYeORM;
 using MYeORM.Client;
 using MYeORM.Client.OrmAttributes;
+using MYeORM.ViewsQuery;
 
 string conString = "Server=192.168.75.150;Port=3306;Database=OrmSampleDb;User Id=userid;Password=pass;SslMode=None;";
 string dbId = OrmDbAgent.RegisterConnectionType<MySql.Data.MySqlClient.MySqlConnection>(conString);
@@ -102,6 +103,29 @@ companies = db.GetAll<Company>(orderByClause: "DateCreated DESC");
 
 // filtered and ordered
 companies = db.GetAll<Company>("Title LIKE '%micro%'", orderByClause: "Title");
+````
+###### parameterized filtering
+````C#
+var userInput = "micro";
+
+// create filter for current database-type
+var filter = db.CreateFilter(() => company.Title, ViewFilterComparisonOperator.Like, userInput, out var filterParam);
+    // OR
+filter = db.CreateFilter(typeof(string), "Title", ViewFilterComparisonOperator.Like, userInput, out filterParam);
+    // OR
+filter = db.CreateFilter(typeof(string), nameof(company.Title), ViewFilterComparisonOperator.Like, userInput, out filterParam);
+
+// get items from table
+companies = db.GetAll<Company>(filter, filterParam, orderByClause: "Title, DateCreated DESC");
+// get items using custom query
+companies = db.Query<Company>($"SELECT * FROM Company WHERE {filter} ORDER BY Title, DateCreated DESC", filterParam);
+
+// get items paged
+int pageSize = 25;
+
+var firstPage = db.Query<Company>(db.ToPagedQuery(0, pageSize, $"SELECT * FROM Company WHERE {filter} ORDER BY Title"), filterParam);
+var secondPage = db.Query<Company>(db.ToPagedQuery(25, pageSize, $"SELECT * FROM Company WHERE {filter} ORDER BY Title"), filterParam);
+
 ````
 ##### Company class
 ````C#
