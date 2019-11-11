@@ -4,9 +4,12 @@ A high performance ORM, for those who prefer SQL to achieve optimal performance.
 ##### As Micro ORM
 * provides extension methods to IDbConnection, so can be used with any database provider
 * provides validation attributes like Required, EmailAddress, MaxLength, MinLength, ValueRange, Required(groupId)
-* use it like any other micro orm, for example
+* use it like any other micro orm, like Dapper
 ````C#
-var affectedRowsCount = connection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@CompanyId, @Title, @Email);", new { CompanyId = companyId, Title = "New Company", Email = "email@company.com" });
+using (var con = new Microsoft.Data.Sqlite.SqliteConnection("Data Source=ormsample.sqlitedb;"))
+{
+    var affectedRowsCount = con.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@CompanyId, @Title, @Email);", new { CompanyId = companyId, Title = "New Company", Email = "email@company.com" });
+}
 ````
 
 ##### As Hybrid ORM
