@@ -199,7 +199,88 @@ public class Company
 }
 ````
 ## DB Migrations
+Built-in db migrations currently support only four major databases SQL Server, MySQL, Oracle, PostgreSQL
+##### Create class
+````C#
+public class Company
+{
+    [Key]
+    public Guid CompanyId { get; set; }
 
+    [MaxLength(100)]
+    public string Title { get; set; }
+
+    [MaxLength(25)]
+    public string Phone { get; set; }
+
+    [MaxLength(150), EmailAddress]
+    public string Email { get; set; }
+}
+````
+##### Generate Schema Scripts
+````C#
+var script =  DbMigrations.Generate_CreateTable_Script(typeof(Company), "", DbServerType.MySQL);
+// OR
+script = DbMigrations.Generate_CreateTable_Script(new List<Type>() { typeof(Company) }, "", DbServerType.MySQL);
+````
+script generated for MySQL
+````SQL
+CREATE TABLE IF NOT EXISTS Company (CompanyId CHAR(36) BINARY DEFAULT '' NOT NULL,Title nvarchar(100),Phone nvarchar(25),Email nvarchar(150) , primary key (CompanyId)) engine=InnoDb auto_increment=0;
+````
+##### Add Index to class property
+````C#
+[MaxLength(150), EmailAddress, Index(isUnique:true)]
+public string Email { get; set; }
+````
+generate script for MySQL
+````SQL
+CREATE TABLE IF NOT EXISTS Company (CompanyId CHAR(36) BINARY DEFAULT '' NOT NULL,Title nvarchar(100),Phone nvarchar(25),Email nvarchar(150) , primary key (CompanyId)) engine=InnoDb auto_increment=0;
+CREATE UNIQUE INDEX IX_Email ON Company(Email DESC) using HASH;
+````
+##### Add Properties to Company class
+````C#
+[DbMigrationAdd, IgnoreForUpdate]
+public DateTime? DateCreated { get; set; } = DateTime.Now;
+
+[DbMigrationAdd, IgnoreForInsert]
+public DateTime? DateModified { get; set; }
+````
+generate script for MySQL
+````SQL
+CREATE TABLE IF NOT EXISTS Company (CompanyId CHAR(36) BINARY DEFAULT '' NOT NULL,Title nvarchar(100),Phone nvarchar(25),Email nvarchar(150),DateCreated datetime,DateModified datetime , primary key (CompanyId)) engine=InnoDb auto_increment=0;
+CREATE UNIQUE INDEX IX_Email ON Company(Email DESC) using HASH;
+ALTER TABLE Company ADD COLUMN DateCreated datetime;
+ALTER TABLE Company ADD COLUMN DateModified datetime;
+````
+generate script for SQL Server
+````SQL
+CREATE TABLE [dbo].[Company] ([CompanyId] uniqueidentifier NOT NULL,[Title] nvarchar(100),[Phone] nvarchar(25),[Email] nvarchar(150),[DateCreated] datetime,[DateModified] datetime , CONSTRAINT [PK_Company] PRIMARY KEY ([CompanyId]));
+GO
+CREATE UNIQUE INDEX [IX_Email] ON [dbo].[Company]([Email]);
+GO
+ALTER TABLE [dbo].[Company] ADD [DateCreated] datetime;
+GO
+ALTER TABLE [dbo].[Company] ADD [DateModified] datetime;
+GO
+````
+generate script for Oracle
+````SQL
+CREATE TABLE Company (CompanyId raw(16) NOT NULL,Title nvarchar2(100) NULL,Phone nvarchar2(25) NULL,Email nvarchar2(150) NULL,DateCreated date NULL,DateModified date NULL , CONSTRAINT PK_Company PRIMARY KEY (CompanyId));
+/
+CREATE UNIQUE INDEX IX_Email ON Company(Email);
+/
+ALTER TABLE Company ADD DateCreated date NULL;
+/
+ALTER TABLE Company ADD DateModified date NULL;
+/
+````
+generate script for PostgreSQL
+````SQL
+CREATE TABLE IF NOT EXISTS public.Company (CompanyId uuid NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000',Title varchar(100),Phone varchar(25),Email varchar(150),DateCreated timestamp,DateModified timestamp , CONSTRAINT PK_Company PRIMARY KEY (CompanyId));
+CREATE UNIQUE INDEX IF NOT EXISTS IX_Email ON public.Company(Email);
+ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateCreated timestamp;
+ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateModified timestamp;
+````
 ## Data Listing
 
 ## Limitations
