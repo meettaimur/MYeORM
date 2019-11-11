@@ -55,13 +55,13 @@ string dbId = OrmDbAgent.RegisterConnectionType<Microsoft.Data.Sqlite.SqliteConn
 // to register SQLite connection (System.Data.SQLite)
 string dbId = OrmDbAgent.RegisterConnectionType<System.Data.SQLite.SQLiteConnection>("Data Source=ormsample.sqlitedb;Version=3;New=True;Compress=True;");
 
-// create class
+// class
 public class Company
 {
     [Key]
     public Guid CompanyId { get; set; }
 
-    [MaxLength(100)]
+    [MaxLength(100), Required]
     public string Title { get; set; }
 
     [MaxLength(25)]
