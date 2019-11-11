@@ -30,8 +30,24 @@ using MYeORM.Client;
 using MYeORM.Client.OrmAttributes;
 using MYeORM.ViewsQuery;
 
-string conString = "Server=192.168.75.150;Port=3306;Database=OrmSampleDb;User Id=userid;Password=pass;SslMode=None;";
-string dbId = OrmDbAgent.RegisterConnectionType<MySql.Data.MySqlClient.MySqlConnection>(conString);
+// to register MySQL connection
+string dbId = OrmDbAgent.RegisterConnectionType<MySql.Data.MySqlClient.MySqlConnection>("Server=192.168.75.150;Port=3306;Database=ormsampledb;User Id=userid;Password=pass;SslMode=None;");
+
+// to register SQL Server connection
+string dbId = OrmDbAgent.RegisterConnectionType<System.Data.SqlClient.SqlConnection>("Server=192.168.75.161;Database=ormsampledb;User Id=userid;Password=pass;");
+
+// to register Oracle connection
+string dbId = OrmDbAgent.RegisterConnectionType<Oracle.ManagedDataAccess.Client.OracleConnection>("Data Source=192.168.75.157;User Id=ormsampledbuser;Password=pass;");
+
+// to register PostgreSQL connection
+string dbId = OrmDbAgent.RegisterConnectionType<Npgsql.NpgsqlConnection>("Server=192.168.75.166;Port=5432;Database=ormsampledb;User Id=userid;Password=pass;Pooling=true;MinPoolSize=1;MaxPoolSize=100;");
+
+// to register SQLite connection (Microsoft.Data.SQlite)
+string dbId = OrmDbAgent.RegisterConnectionType<Microsoft.Data.Sqlite.SqliteConnection>("Data Source=ormsample.sqlitedb;");
+
+// to register SQLite connection (System.Data.SQLite)
+string dbId = OrmDbAgent.RegisterConnectionType<System.Data.SQLite.SQLiteConnection>("Data Source=ormsample.sqlitedb;Version=3;New=True;Compress=True;");
+
 ````
 #### Basic Operations
 ````C#
