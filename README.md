@@ -23,7 +23,7 @@ get [MYeORM nuget package](https://www.nuget.org/packages/MYeORM/)
 
 ## Overview
 
-##### Register Connection
+#### Register Connection
 ````c#
 using MYeORM;
 using MYeORM.Client;
@@ -33,7 +33,7 @@ using MYeORM.ViewsQuery;
 string conString = "Server=192.168.75.150;Port=3306;Database=OrmSampleDb;User Id=userid;Password=pass;SslMode=None;";
 string dbId = OrmDbAgent.RegisterConnectionType<MySql.Data.MySqlClient.MySqlConnection>(conString);
 ````
-##### Basic Operations
+#### Basic Operations
 ````C#
 // create db agent
 var db = new OrmDbAgent(dbId);
@@ -59,7 +59,7 @@ db.DeleteById<Company>(company.CompanyId);
 // save(insert or update)
 db.Save(company);
 ````
-##### Validation
+#### Validation
 ````C#
 Dictionary<string, string> errors = db.ValidateEntity(company);
 
@@ -68,7 +68,7 @@ Dictionary<string, string> errors = db.ValidateEntity(company);
 //      Value = error message (default or custom)
 
 ````
-##### Transactions
+#### Transactions
 ````C#
 var transactionId = db.NewGuid().ToString();
 
@@ -79,8 +79,8 @@ db.CommitTransaction(transactionId);
     // OR
 db.RollbackTransaction(transactionId);
 ````
-##### Threadsafe Operations
-Use DB class for threadsafe operations directly instead OrmDbAgent.
+#### Threadsafe Operations
+###### Use DB class for threadsafe operations directly instead OrmDbAgent.
 ````C#
 DB.Insert(company, dbId);
 
@@ -90,7 +90,7 @@ DB.Update(company, dbId);
 DB.Delete(company, dbId);
 DB.Save(company, dbId);
 ````
-##### Extend OrmDbAgent
+#### Extend OrmDbAgent
 ````C#
 public class LoggedUser : OrmDbAgent
 {
@@ -102,8 +102,8 @@ public class LoggedUser : OrmDbAgent
     // add more properties or methods as per requirement
 };
 ````
-##### Query Data
-###### queries
+#### Query Data
+##### queries
 ````C#
 // all
 var companies = db.GetAll<Company>();
@@ -130,7 +130,7 @@ companies = db.Query<Company>("SELECT CompanyId, Title FROM Company ORDER BY Tit
 var comboList = db.Query<CompanyComboItem>("SELECT CompanyId, Title FROM Company ORDER BY Title");
 
 ````
-###### parameterized queries
+##### parameterized queries
 ````C#
 // anonymous class
 companies = db.Query<Company>("SELECT * FROM Company WHERE CompanyId = @CompanyId ORDER BY Title", new { CompanyId = company.CompanyId });
@@ -144,7 +144,7 @@ companies = db.Query<Company>("SELECT * FROM Company WHERE CompanyId = @CompanyI
 // standard cross database query
 companies = db.Query<Company>($"SELECT * FROM Company WHERE CompanyId = {db.ParamChar}CompanyId ORDER BY Title", new { CompanyId = company.CompanyId });
 ````
-###### cross database parameterized queries with filtering and paging
+##### cross database parameterized queries with filtering and paging
 ````C#
 var userInput = "micro";
 
@@ -166,7 +166,7 @@ int pageSize = 25;
 var firstPage = db.Query<Company>(db.ToPagedQuery(0, pageSize, $"SELECT * FROM Company WHERE {filter} ORDER BY Title"), filterParam);
 var secondPage = db.Query<Company>(db.ToPagedQuery(25, pageSize, $"SELECT * FROM Company WHERE {filter} ORDER BY Title"), filterParam);
 ````
-##### Stored Procedures
+#### Stored Procedures
 ````C#
 companies = db.QueryStoredProcedure<Company>("GetAllCompanies");
 
