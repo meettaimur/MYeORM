@@ -104,7 +104,7 @@ companies = db.GetAll<Company>(orderByClause: "DateCreated DESC");
 // filtered and ordered
 companies = db.GetAll<Company>("Title LIKE '%micro%'", orderByClause: "Title");
 ````
-###### parameterized filtering
+###### cross rdbms parameterized filtering
 ````C#
 var userInput = "micro";
 
