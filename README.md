@@ -55,6 +55,27 @@ string dbId = OrmDbAgent.RegisterConnectionType<Microsoft.Data.Sqlite.SqliteConn
 // to register SQLite connection (System.Data.SQLite)
 string dbId = OrmDbAgent.RegisterConnectionType<System.Data.SQLite.SQLiteConnection>("Data Source=ormsample.sqlitedb;Version=3;New=True;Compress=True;");
 
+// create class
+public class Company
+{
+    [Key]
+    public Guid CompanyId { get; set; }
+
+    [MaxLength(100)]
+    public string Title { get; set; }
+
+    [MaxLength(25)]
+    public string Phone { get; set; }
+
+    [MaxLength(150), EmailAddress]
+    public string Email { get; set; }
+
+    [IgnoreForUpdate]
+    public DateTime? DateCreated { get; set; } = DateTime.Now;
+
+    [IgnoreForInsert]
+    public DateTime? DateModified { get; set; }
+}
 ````
 #### Basic Operations
 ````C#
