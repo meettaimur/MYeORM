@@ -35,11 +35,11 @@ string dbId = OrmDbAgent.RegisterConnectionType<MySql.Data.MySqlClient.MySqlConn
 ````
 ##### CRUD Operations
 ````C#
-// create db agent, hint: OrmDbAgent
+// create db agent
 var db = new OrmDbAgent(dbId);
 
 // new company
-var company = new Company() { CompanyId = db.NewGuid(), Title = "Microsoft", Phone = "", Email = "example@microsoft.com" };
+var company = new Company() { CompanyId = db.NewGuid(), Title = "Microsoft", Phone = "", Email = "testemail@microsoft.com" };
 
 // insert
 db.Insert(company);
@@ -73,7 +73,7 @@ Dictionary<string, string> errors = db.ValidateEntity(company);
 var transactionId = db.NewGuid().ToString();
 
 db.Insert(company, transactionId);
-...do other operations
+...excute more operations
 
 db.CommitTransaction(transactionId);
     // OR
@@ -118,6 +118,20 @@ companies = db.Query<Company>("SELECT CompanyId, Title FROM Company ORDER BY Tit
 var comboList = db.Query<CompanyComboItem>("SELECT CompanyId, Title FROM Company ORDER BY Title");
 
 ````
+###### queries with parameters
+````C#
+// anonymous class
+companies = db.Query<Company>("SELECT * FROM Company WHERE CompanyId = @CompanyId ORDER BY Title", new { CompanyId = company.CompanyId });
+
+// dictionary
+companies = db.Query<Company>("SELECT * FROM Company WHERE CompanyId = @CompanyId ORDER BY Title", new Dictionary<string, object>() { { "CompanyId", company.CompanyId } });
+
+// DbxParameter class
+companies = db.Query<Company>("SELECT * FROM Company WHERE CompanyId = @CompanyId ORDER BY Title", new DbxParameter("CompanyId", company.CompanyId));
+
+// standard cross database query
+companies = db.Query<Company>($"SELECT * FROM Company WHERE CompanyId = {db.ParamChar}CompanyId ORDER BY Title", new { CompanyId = company.CompanyId });
+````
 ###### cross database parameterized filtering and paging
 ````C#
 var userInput = "micro";
@@ -139,20 +153,6 @@ companies = db.Query<Company>($"SELECT * FROM Company WHERE {filter} ORDER BY Ti
 int pageSize = 25;
 var firstPage = db.Query<Company>(db.ToPagedQuery(0, pageSize, $"SELECT * FROM Company WHERE {filter} ORDER BY Title"), filterParam);
 var secondPage = db.Query<Company>(db.ToPagedQuery(25, pageSize, $"SELECT * FROM Company WHERE {filter} ORDER BY Title"), filterParam);
-````
-###### queries with parameters
-````C#
-// anonymous class
-companies = db.Query<Company>("SELECT * FROM Company WHERE CompanyId = @CompanyId ORDER BY Title", new { CompanyId = company.CompanyId });
-
-// dictionary
-companies = db.Query<Company>("SELECT * FROM Company WHERE CompanyId = @CompanyId ORDER BY Title", new Dictionary<string, object>() { { "CompanyId", company.CompanyId } });
-
-// DbxParameter class
-companies = db.Query<Company>("SELECT * FROM Company WHERE CompanyId = @CompanyId ORDER BY Title", new DbxParameter("CompanyId", company.CompanyId));
-
-// standard cross database query
-companies = db.Query<Company>($"SELECT * FROM Company WHERE CompanyId = {db.ParamChar}CompanyId ORDER BY Title", new { CompanyId = company.CompanyId });
 ````
 ##### Stored Procedures
 ````C#
@@ -198,11 +198,11 @@ public class Company
     public DateTime? DateModified { get; set; }
 }
 ````
-## Data Listing
-
 ## DB Migrations
+
+## Data Listing
 
 ## Limitations
 
 ## Who is using
-We are using this in our own projects for years
+We are using in our own projects for years
