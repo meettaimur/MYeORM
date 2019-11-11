@@ -202,11 +202,11 @@ db.ExecuteStoredProcedure("DeleteCompanyById", paramList);
 // now get OUT parameter value
 var outValue = paramList[1].Value;
 
-// scalar values
+// for scalar values
 var value = db.ExecuteScalarStoredProcedure("GenerateInvoiceCode");
 ````
 ## DB Migrations
-Built-in db migrations currently support only four major databases SQL Server, MySQL, Oracle, PostgreSQL
+Built-in db migrations currently support four major databases SQL Server, MySQL, Oracle, PostgreSQL
 #### Create class
 ````C#
 public class Company
@@ -229,7 +229,7 @@ public class Company
 // generate script for mysql
 var script =  DbMigrations.Generate_CreateTable_Script(typeof(Company), "", DbServerType.MySQL);
 // OR
-script = DbMigrations.Generate_CreateTable_Script(new List<Type>() { typeof(Company) }, "", DbServerType.MySQL);
+var script = DbMigrations.Generate_CreateTable_Script(new List<Type>() { typeof(Company) }, "", DbServerType.MySQL);
 ````
 ###### script generated
 ````SQL
