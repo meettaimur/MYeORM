@@ -117,12 +117,12 @@ filter = db.CreateFilter(typeof(string), nameof(company.Title), ViewFilterCompar
 
 // get items from table
 companies = db.GetAll<Company>(filter, filterParam, orderByClause: "Title, DateCreated DESC");
+
 // get items using custom query
 companies = db.Query<Company>($"SELECT * FROM Company WHERE {filter} ORDER BY Title, DateCreated DESC", filterParam);
 
 // get items paged
 int pageSize = 25;
-
 var firstPage = db.Query<Company>(db.ToPagedQuery(0, pageSize, $"SELECT * FROM Company WHERE {filter} ORDER BY Title"), filterParam);
 var secondPage = db.Query<Company>(db.ToPagedQuery(25, pageSize, $"SELECT * FROM Company WHERE {filter} ORDER BY Title"), filterParam);
 
