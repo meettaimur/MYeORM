@@ -11,13 +11,12 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 #### As Hybrid ORM
 * built-in support for SQLServer, Oracle, MySQL, PostgreSQL and SQLite without external dependencies
 * CRUD operations
-* transactions but in a way better than traditional approach
-* validation attributes
-* sequential Guid generator
-* DB Migrations supported without external depdencies
+* Transactions got better and simple
+* generate sequential Guid
 * DB Migrations management simplified (a different approach than Entity Framework)
-* Data Listing support tables/views, filtering, sorting and paging
-* Can be used (not tested yet) with other protocol compatible databases like MariaDB, Percona Server, Amazon Aurora, Azure Database for MySQL, Google Cloud SQL for MySQL, YugaByte, TimescaleDB, CockroachDB etc.
+* DB Migrations supported without external dependencies
+* Data Listing support tables/views, paging, sorting and filtering
+* Can be used (but not tested yet) with other protocol compatible databases like MariaDB, Percona Server, Amazon Aurora, Azure Database for MySQL, Google Cloud SQL for MySQL, YugaByte, TimescaleDB, CockroachDB etc.
 
 
 ## Installation
