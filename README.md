@@ -12,7 +12,7 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 * built-in support for SQLServer, Oracle, MySQL, PostgreSQL and SQLite without external dependencies
 * CRUD operations
 * Transactions got better and simple
-* generate sequential Guid
+* Sequential Guid generator
 * DB Migrations management simplified (a different approach than Entity Framework)
 * DB Migrations supported without external dependencies
 * Data Listing support tables/views, paging, sorting and filtering
