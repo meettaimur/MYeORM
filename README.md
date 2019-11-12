@@ -34,22 +34,22 @@ using MYeORM.ViewsQuery;
 ````
 ````c#
 // to register MySQL connection
-string dbId = OrmDbAgent.RegisterConnectionType<MySql.Data.MySqlClient.MySqlConnection>("connection string");
+string dbId = DB.RegisterConnectionType<MySql.Data.MySqlClient.MySqlConnection>("connection string");
 
 // to register SQL Server connection
-string dbId = OrmDbAgent.RegisterConnectionType<System.Data.SqlClient.SqlConnection>("connection string");
+string dbId = DB.RegisterConnectionType<System.Data.SqlClient.SqlConnection>("connection string");
 
 // to register Oracle connection
-string dbId = OrmDbAgent.RegisterConnectionType<Oracle.ManagedDataAccess.Client.OracleConnection>("connection string");
+string dbId = DB.RegisterConnectionType<Oracle.ManagedDataAccess.Client.OracleConnection>("connection string");
 
 // to register PostgreSQL connection
-string dbId = OrmDbAgent.RegisterConnectionType<Npgsql.NpgsqlConnection>("connection string");
+string dbId = DB.RegisterConnectionType<Npgsql.NpgsqlConnection>("connection string");
 
 // to register SQLite connection (Microsoft.Data.SQlite)
-string dbId = OrmDbAgent.RegisterConnectionType<Microsoft.Data.Sqlite.SqliteConnection>("Data Source=ormsample.db;");
+string dbId = DB.RegisterConnectionType<Microsoft.Data.Sqlite.SqliteConnection>("Data Source=ormsample.db;");
 
 // to register SQLite connection (System.Data.SQLite)
-string dbId = OrmDbAgent.RegisterConnectionType<System.Data.SQLite.SQLiteConnection>("Data Source=ormsample.sqlitedb;Version=3;New=True;Compress=True;");
+string dbId = DB.RegisterConnectionType<System.Data.SQLite.SQLiteConnection>("Data Source=ormsample.sqlitedb;Version=3;New=True;Compress=True;");
 
 // class
 public class Company
