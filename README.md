@@ -108,6 +108,7 @@ Dictionary<string, string> errors = db.ValidateEntity(company);
 //      Value = error message (default or custom)
 ````
 ###### For details please check [validations page](https://github.com/meettaimur/MYeORM/blob/master/Validations.md)
+#####
 #### Transactions
 ````C#
 var transactionId = db.NewGuid().ToString();
@@ -133,7 +134,7 @@ DB.Save(company, dbId);
 // HINT: OrmDbAgent is also using DB class internally
 ````
 #### Extend OrmDbAgent
-Inherit and extend the agent class to meet your custom requirements
+###### Inherit and extend the agent class to meet your custom requirements
 ````C#
 public class LoggedUser : OrmDbAgent
 {
@@ -146,7 +147,7 @@ public class LoggedUser : OrmDbAgent
 };
 ````
 #### Query Data
-##### queries
+###### queries
 ````C#
 // all
 var companies = db.GetAll<Company>();
@@ -173,7 +174,7 @@ companies = db.Query<Company>("SELECT CompanyId, Title FROM Company ORDER BY Tit
 var comboList = db.Query<CompanyComboItem>("SELECT CompanyId, Title FROM Company ORDER BY Title");
 
 ````
-##### parameterized queries
+###### parameterized queries
 ````C#
 // using anonymous class
 companies = db.Query<Company>("SELECT * FROM Company WHERE CompanyId = @CompanyId ORDER BY Title", new { CompanyId = company.CompanyId });
