@@ -317,7 +317,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS IX_Email ON public.Company(Email);
 ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateCreated timestamp;
 ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateModified timestamp;
 ````
-#### for details please check [db migrations page](https://github.com/meettaimur/MYeORM/blob/master/DB%20Migrations.md) 
+##### for details please check [db migrations page](https://github.com/meettaimur/MYeORM/blob/master/DB%20Migrations.md) 
 ####
 ## Data Listing
 ####
