@@ -3,7 +3,7 @@ A high performance ORM, for those who prefer SQL to achieve optimal performance.
 
 #### As Micro ORM
 * provides extension methods to IDbConnection, so can be used with any database provider
-* check [quick start page](https://github.com/meettaimur/MYeORM/blob/master/Micro%20ORM.md)
+* for details check [micro orm page](https://github.com/meettaimur/MYeORM/blob/master/Micro%20ORM.md)
 ````C#
 conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@CompanyId, @Title, @Email);", new { CompanyId = companyId, Title = "New Company", Email = "email@company.com" });
 ````
@@ -312,7 +312,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS IX_Email ON public.Company(Email);
 ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateCreated timestamp;
 ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateModified timestamp;
 ````
-#### to read more check [db migrations page](https://github.com/meettaimur/MYeORM/blob/master/DB%20Migrations.md) 
+#### for details check [db migrations page](https://github.com/meettaimur/MYeORM/blob/master/DB%20Migrations.md) 
 ## Data Listing
 
 ## Limitations
