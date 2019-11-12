@@ -20,7 +20,7 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 
 
 ## Installation
-get [MYeORM nuget package](https://www.nuget.org/packages/MYeORM/)
+get from [MYeORM nuget package](https://www.nuget.org/packages/MYeORM/)
 
 ## Overview
 
