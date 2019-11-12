@@ -123,12 +123,20 @@ db.RollbackTransaction(transactionId);
 #### Threadsafe Operations
 ###### Use DB class for threadsafe operations directly instead OrmDbAgent.
 ````C#
+// insert
 DB.Insert(company, dbId);
 
+// find
 company = DB.GetById<Company>(company.CompanyId, dbId);
 
+// update
 DB.Update(company, dbId);
+
+// delete
 DB.Delete(company, dbId);
+db.DeleteById<Company>(company.CompanyId, dbId);
+
+// save(insert or update)
 DB.Save(company, dbId);
 
 // Transactions
