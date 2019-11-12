@@ -131,7 +131,18 @@ DB.Update(company, dbId);
 DB.Delete(company, dbId);
 DB.Save(company, dbId);
 
-// HINT: OrmDbAgent is also using DB class internally
+// Transactions
+var transactionId = db.NewGuid().ToString();
+
+DB.Insert(company, dbId, transactionId);
+...do more operations
+
+// at end
+db.CommitTransaction(transactionId);
+    // OR
+db.RollbackTransaction(transactionId);
+
+// HINT: OrmDbAgent is using DB class internally
 ````
 #### Extend OrmDbAgent
 ###### Inherit and extend the agent class to meet your custom requirements
