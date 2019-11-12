@@ -129,6 +129,8 @@ company = DB.GetById<Company>(company.CompanyId, dbId);
 DB.Update(company, dbId);
 DB.Delete(company, dbId);
 DB.Save(company, dbId);
+
+// HINT: OrmDbAgent is also using DB class internally
 ````
 #### Extend OrmDbAgent
 Inherit and extend the agent class to meet your custom requirements
@@ -229,8 +231,9 @@ var outValue = paramList[1].Value;
 // execute scalar
 var value = db.ExecuteScalarStoredProcedure("GenerateInvoiceCode");
 ````
+####
 ## DB Migrations
-Built-in db migrations is currently support four major databases only SQL Server, MySQL, Oracle, PostgreSQL.
+Built-in db migrations is supported for these major databases only SQL Server, MySQL, Oracle, PostgreSQL.
 #### Create class
 ````C#
 public class Company
@@ -314,8 +317,9 @@ ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateCreated timestamp;
 ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateModified timestamp;
 ````
 #### for details check [db migrations page](https://github.com/meettaimur/MYeORM/blob/master/DB%20Migrations.md) 
+####
 ## Data Listing
-
+####
 ## Limitations
 
 ## Who is using
