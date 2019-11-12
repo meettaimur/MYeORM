@@ -345,13 +345,12 @@ ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateModified timestamp;
 ##### for details please check [data listing page](https://github.com/meettaimur/MYeORM/blob/master/Data%20Listing.md) 
 ####
 ## Limitations
-* properties for child/parent entities not supported, however child entities can be loaded as given below
+* properties for child or parent entities not supported to keep it in spirit with database tables, however child entities can be loaded as given below
 ````C#
 var invoiceItems = db.GetChildItems(invoice, typeof(InvoiceItem));
 
-// Hint: IgnoreAttribute can be set to such properties, to ignore them in CRUD operations
+// Hint: IgnoreAttribute can also be set to such properties, to ignore them in CRUD operations
 ````
-* single primary-key-column per table supported for CRUD operations
 
 ## Who is using
 We are using in our own projects for years
