@@ -3,7 +3,7 @@ A high performance ORM, for those who prefer SQL to achieve optimal performance.
 
 #### As Micro ORM
 * provides extension methods to IDbConnection, so can be used with any database provider
-* for details check [micro orm page](https://github.com/meettaimur/MYeORM/blob/master/Micro%20ORM.md)
+* for details please check [micro orm page](https://github.com/meettaimur/MYeORM/blob/master/Micro%20ORM.md)
 ````C#
 conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@CompanyId, @Title, @Email);", new { CompanyId = companyId, Title = "New Company", Email = "email@company.com" });
 ````
@@ -107,7 +107,7 @@ Dictionary<string, string> errors = db.ValidateEntity(company);
 //      Key = property name or caption
 //      Value = error message (default or custom)
 ````
-###### For details check [validations page](https://github.com/meettaimur/MYeORM/blob/master/Validations.md)
+###### For details please check [validations page](https://github.com/meettaimur/MYeORM/blob/master/Validations.md)
 #### Transactions
 ````C#
 var transactionId = db.NewGuid().ToString();
@@ -316,7 +316,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS IX_Email ON public.Company(Email);
 ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateCreated timestamp;
 ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateModified timestamp;
 ````
-#### for details check [db migrations page](https://github.com/meettaimur/MYeORM/blob/master/DB%20Migrations.md) 
+#### for details please check [db migrations page](https://github.com/meettaimur/MYeORM/blob/master/DB%20Migrations.md) 
 ####
 ## Data Listing
 ####
