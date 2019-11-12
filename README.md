@@ -107,7 +107,7 @@ Dictionary<string, string> errors = db.ValidateEntity(company);
 //      Key = property name or caption
 //      Value = error message (default or custom)
 ````
-##### For details check [validations page](https://github.com/meettaimur/MYeORM/blob/master/Validations.md)
+###### For details check [validations page](https://github.com/meettaimur/MYeORM/blob/master/Validations.md)
 #### Transactions
 ````C#
 var transactionId = db.NewGuid().ToString();
