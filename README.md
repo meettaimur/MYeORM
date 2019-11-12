@@ -112,6 +112,7 @@ Dictionary<string, string> errors = db.ValidateEntity(company);
 ````C#
 var transactionId = db.NewGuid().ToString();
 
+// insert
 db.Insert(company, transactionId);
 ...do more operations
 
@@ -138,6 +139,8 @@ db.DeleteById<Company>(company.CompanyId, dbId);
 
 // save(insert or update)
 DB.Save(company, dbId);
+
+
 
 // Transactions
 var transactionId = db.NewGuid().ToString();
