@@ -326,6 +326,8 @@ ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateModified timestamp;
 * within class nested child/parent entities not supported, however child entities can be loaded as given below
 ````C#
 var invoiceItems = db.GetChildItems(invoice, typeof(InvoiceItem));
+
+// Hint: Ignore Attribute can be set to such properties, to ignore them in CRUD operations
 ````
 * single primary-key-column per table supported for CRUD operations
 
