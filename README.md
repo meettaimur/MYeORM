@@ -51,7 +51,7 @@ string dbId = DB.RegisterConnectionType<Microsoft.Data.Sqlite.SqliteConnection>(
 // to register SQLite connection (System.Data.SQLite)
 string dbId = DB.RegisterConnectionType<System.Data.SQLite.SQLiteConnection>("Data Source=ormsample.sqlitedb;Version=3;New=True;Compress=True;");
 
-// class
+// create class
 public class Company
 {
     [Key]
@@ -172,13 +172,13 @@ var comboList = db.Query<CompanyComboItem>("SELECT CompanyId, Title FROM Company
 ````
 ##### parameterized queries
 ````C#
-// anonymous class
+// using anonymous class
 companies = db.Query<Company>("SELECT * FROM Company WHERE CompanyId = @CompanyId ORDER BY Title", new { CompanyId = company.CompanyId });
 
-// dictionary
+// using dictionary
 companies = db.Query<Company>("SELECT * FROM Company WHERE CompanyId = @CompanyId ORDER BY Title", new Dictionary<string, object>() { { "CompanyId", company.CompanyId } });
 
-// DbxParameter class
+// using DbxParameter class
 companies = db.Query<Company>("SELECT * FROM Company WHERE CompanyId = @CompanyId ORDER BY Title", new DbxParameter("CompanyId", company.CompanyId));
 
 // standard cross database query
@@ -195,10 +195,10 @@ filter = db.CreateFilter(typeof(string), "Title", ViewFilterComparisonOperator.L
     // OR
 filter = db.CreateFilter(typeof(string), nameof(company.Title), ViewFilterComparisonOperator.Like, userInput, out filterParam);
 
-// get items from table
+// get from table
 companies = db.GetAll<Company>(filter, filterParam, orderByClause: "Title, DateCreated DESC");
 
-// get items using custom query
+// get using custom query(table or view)
 companies = db.Query<Company>($"SELECT * FROM Company WHERE {filter} ORDER BY Title, DateCreated DESC", filterParam);
 
 // get items paged
@@ -208,13 +208,13 @@ var secondPage = db.Query<Company>(db.ToPagedQuery(25, pageSize, $"SELECT * FROM
 ````
 #### Stored Procedures
 ````C#
+// execute
 companies = db.QueryStoredProcedure<Company>("GetAllCompanies");
-
 company = db.QueryStoredProcedure<Company>("GetCompanyById", new { CompanyId = company.CompanyId }).FirstOrDefault();
 company = db.QueryStoredProcedure<Company>("GetCompanyById", new DbxParameter("CompanyId", company.CompanyId)).FirstOrDefault();
 company = db.QueryStoredProcedure<Company>("GetCompanyById", new DbxParameter("CompanyId", company.CompanyId) { Direction = ParameterDirection.Input }).FirstOrDefault();
 
-// Output parameter
+// execute with Output parameter
 var paramList = new DbxParameters()
 {
     new DbxParameter("CompanyId", company.CompanyId) { Direction = ParameterDirection.Input },
@@ -225,11 +225,11 @@ db.ExecuteStoredProcedure("DeleteCompanyById", paramList);
 // now get OUT parameter value
 var outValue = paramList[1].Value;
 
-// for scalar values
+// execute scalar
 var value = db.ExecuteScalarStoredProcedure("GenerateInvoiceCode");
 ````
 ## DB Migrations
-Built-in db migrations currently support four major databases SQL Server, MySQL, Oracle, PostgreSQL
+Built-in db migrations is currently support four major databases only SQL Server, MySQL, Oracle, PostgreSQL.
 #### Create class
 ````C#
 public class Company
@@ -268,7 +268,7 @@ public string Email { get; set; }
 CREATE TABLE IF NOT EXISTS Company (CompanyId CHAR(36) BINARY DEFAULT '' NOT NULL,Title nvarchar(100),Phone nvarchar(25),Email nvarchar(150) , primary key (CompanyId)) engine=InnoDb auto_increment=0;
 CREATE UNIQUE INDEX IX_Email ON Company(Email DESC) using HASH;
 ````
-#### Add Properties to class
+#### Add more Properties to class
 ````C#
 [DbMigrationAdd, IgnoreForUpdate]
 public DateTime? DateCreated { get; set; } = DateTime.Now;
@@ -312,6 +312,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS IX_Email ON public.Company(Email);
 ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateCreated timestamp;
 ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateModified timestamp;
 ````
+#### to read more check [db migrations page](https://github.com/meettaimur/MYeORM/blob/master/DB%20Migrations.md) 
 ## Data Listing
 
 ## Limitations
