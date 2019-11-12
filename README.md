@@ -114,8 +114,9 @@ Dictionary<string, string> errors = db.ValidateEntity(company);
 var transactionId = db.NewGuid().ToString();
 
 db.Insert(company, transactionId);
-...excute more operations
+...do more operations
 
+// at end
 db.CommitTransaction(transactionId);
     // OR
 db.RollbackTransaction(transactionId);
@@ -218,6 +219,9 @@ company = db.QueryStoredProcedure<Company>("GetCompanyById", new { CompanyId = c
 company = db.QueryStoredProcedure<Company>("GetCompanyById", new DbxParameter("CompanyId", company.CompanyId)).FirstOrDefault();
 company = db.QueryStoredProcedure<Company>("GetCompanyById", new DbxParameter("CompanyId", company.CompanyId) { Direction = ParameterDirection.Input }).FirstOrDefault();
 
+// execute scalar
+var value = db.ExecuteScalarStoredProcedure("GenerateInvoiceCode");
+
 // execute with Output parameter
 var paramList = new DbxParameters()
 {
@@ -226,15 +230,12 @@ var paramList = new DbxParameters()
 };
 db.ExecuteStoredProcedure("DeleteCompanyById", paramList);
 
-// now get OUT parameter value
+// now get Output parameter value
 var outValue = paramList[1].Value;
-
-// execute scalar
-var value = db.ExecuteScalarStoredProcedure("GenerateInvoiceCode");
 ````
 ####
 ## DB Migrations
-Built-in db migrations is supported for these major databases only SQL Server, MySQL, Oracle, PostgreSQL.
+Built-in db migrations supported for these major databases SQL Server, MySQL, Oracle, PostgreSQL.
 #### Create class
 ````C#
 public class Company
@@ -323,7 +324,7 @@ ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateModified timestamp;
 ##### for details please check [data listing page](https://github.com/meettaimur/MYeORM/blob/master/Data%20Listing.md) 
 ####
 ## Limitations
-* within class nested child/parent entities not supported, however child entities can be loaded as given below
+* properties for child/parent entities not supported, however child entities can be loaded as given below
 ````C#
 var invoiceItems = db.GetChildItems(invoice, typeof(InvoiceItem));
 
