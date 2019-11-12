@@ -327,7 +327,7 @@ ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateModified timestamp;
 ````C#
 var invoiceItems = db.GetChildItems(invoice, typeof(InvoiceItem));
 ````
-* single primary-key column supported per table for CRUD operations
+* single primary-key-column per table supported for CRUD operations
 
 ## Who is using
 We are using in our own projects for years
