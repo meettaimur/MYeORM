@@ -146,9 +146,9 @@ DB.Insert(company, dbId, transactionId);
 ...do more operations
 
 // at end
-db.CommitTransaction(transactionId);
+DB.CommitTransaction(transactionId);
     // OR
-db.RollbackTransaction(transactionId);
+DB.RollbackTransaction(transactionId);
 
 // HINT: OrmDbAgent is using DB class internally
 ````
