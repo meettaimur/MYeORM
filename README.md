@@ -327,7 +327,7 @@ ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateModified timestamp;
 ````C#
 var invoiceItems = db.GetChildItems(invoice, typeof(InvoiceItem));
 
-// Hint: Ignore Attribute can be set to such properties, to ignore them in CRUD operations
+// Hint: IgnoreAttribute can be set to such properties, to ignore them in CRUD operations
 ````
 * single primary-key-column per table supported for CRUD operations
 
