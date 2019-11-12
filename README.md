@@ -6,22 +6,19 @@ A high performance ORM, for those who prefer SQL to achieve optimal performance.
 * provides validation attributes like Required, EmailAddress, MaxLength, MinLength, ValueRange, Required(groupId)
 * use it like any other micro orm, like Dapper
 ````C#
-using (var con = new Microsoft.Data.Sqlite.SqliteConnection("Data Source=ormsample.sqlitedb;"))
-{
-    var affectedRowsCount = con.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@CompanyId, @Title, @Email);", new { CompanyId = companyId, Title = "New Company", Email = "email@company.com" });
-}
+conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@CompanyId, @Title, @Email);", new { CompanyId = companyId, Title = "New Company", Email = "email@company.com" });
 ````
 
 #### As Hybrid ORM
-* has built-in support for SQLServer, Oracle, MySQL, PostgreSQL and SQLite without external dependency
-* support CRUD operations
-* support transactions but in a way better than traditional approach
-* provides validation attributes
-* provides sequential Guid generator
+* built-in support for SQLServer, Oracle, MySQL, PostgreSQL and SQLite without external dependencies
+* CRUD operations
+* transactions but in a way better than traditional approach
+* validation attributes
+* sequential Guid generator
 * DB Migrations supported without external depdencies
 * DB Migrations management simplified (a different approach than Entity Framework)
 * Data Listing support tables/views, filtering, sorting and paging
-* Can be used (but not tested yet) with other protocol compatible databases like MariaDB, Percona Server, Amazon Aurora, Azure Database for MySQL, Google Cloud SQL for MySQL, YugaByte, TimescaleDB, CockroachDB etc.
+* Can be used (not tested yet) with other protocol compatible databases like MariaDB, Percona Server, Amazon Aurora, Azure Database for MySQL, Google Cloud SQL for MySQL, YugaByte, TimescaleDB, CockroachDB etc.
 
 
 ## Installation
@@ -38,19 +35,19 @@ using MYeORM.ViewsQuery;
 ````
 ````c#
 // to register MySQL connection
-string dbId = OrmDbAgent.RegisterConnectionType<MySql.Data.MySqlClient.MySqlConnection>("Server=192.168.75.150;Port=3306;Database=ormsampledb;User Id=userid;Password=pass;SslMode=None;");
+string dbId = OrmDbAgent.RegisterConnectionType<MySql.Data.MySqlClient.MySqlConnection>("connection string");
 
 // to register SQL Server connection
-string dbId = OrmDbAgent.RegisterConnectionType<System.Data.SqlClient.SqlConnection>("Server=192.168.75.161;Database=ormsampledb;User Id=userid;Password=pass;");
+string dbId = OrmDbAgent.RegisterConnectionType<System.Data.SqlClient.SqlConnection>("connection string");
 
 // to register Oracle connection
-string dbId = OrmDbAgent.RegisterConnectionType<Oracle.ManagedDataAccess.Client.OracleConnection>("Data Source=192.168.75.157;User Id=ormsampledbuser;Password=pass;");
+string dbId = OrmDbAgent.RegisterConnectionType<Oracle.ManagedDataAccess.Client.OracleConnection>("connection string");
 
 // to register PostgreSQL connection
-string dbId = OrmDbAgent.RegisterConnectionType<Npgsql.NpgsqlConnection>("Server=192.168.75.166;Port=5432;Database=ormsampledb;User Id=userid;Password=pass;Pooling=true;MinPoolSize=1;MaxPoolSize=100;");
+string dbId = OrmDbAgent.RegisterConnectionType<Npgsql.NpgsqlConnection>("connection string");
 
 // to register SQLite connection (Microsoft.Data.SQlite)
-string dbId = OrmDbAgent.RegisterConnectionType<Microsoft.Data.Sqlite.SqliteConnection>("Data Source=ormsample.sqlitedb;");
+string dbId = OrmDbAgent.RegisterConnectionType<Microsoft.Data.Sqlite.SqliteConnection>("Data Source=ormsample.db;");
 
 // to register SQLite connection (System.Data.SQLite)
 string dbId = OrmDbAgent.RegisterConnectionType<System.Data.SQLite.SQLiteConnection>("Data Source=ormsample.sqlitedb;Version=3;New=True;Compress=True;");
@@ -143,7 +140,7 @@ public class LoggedUser : OrmDbAgent
     public Guid UserId { get; set; }
     public string UserName { get; set; }
     
-    // add more properties or methods as per requirement
+    // add more properties or methods as per your requirement
 };
 ````
 #### Query Data
