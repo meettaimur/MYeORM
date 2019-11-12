@@ -4,7 +4,7 @@ A high performance ORM, for those who prefer SQL to achieve optimal performance.
 #### As Micro ORM
 * provides extension methods to IDbConnection, so can be used with any database provider
 * provides validation attributes like Required, EmailAddress, MaxLength, MinLength, ValueRange, Required(groupId)
-* use it like any other micro orm [quick start guide] (https://github.com/meettaimur/MYeORM/blob/master/Micro%20ORM.md), like Dapper
+* use it like any other micro orm [quick start guide](https://github.com/meettaimur/MYeORM/blob/master/Micro%20ORM.md), like Dapper
 ````C#
 conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@CompanyId, @Title, @Email);", new { CompanyId = companyId, Title = "New Company", Email = "email@company.com" });
 ````
