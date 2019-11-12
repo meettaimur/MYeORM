@@ -188,7 +188,7 @@ companies = db.Query<Company>("SELECT * FROM Company WHERE CompanyId = @CompanyI
 // standard cross database query
 companies = db.Query<Company>($"SELECT * FROM Company WHERE CompanyId = {db.ParamChar}CompanyId ORDER BY Title", new { CompanyId = company.CompanyId });
 ````
-##### cross database parameterized queries with filtering and paging
+###### cross database parameterized queries with filtering and paging
 ````C#
 var userInput = "micro";
 
