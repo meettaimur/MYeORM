@@ -348,9 +348,9 @@ ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateModified timestamp;
 * nested child or parent entities not supported to keep it in spirit with tables in RDBMS, however child entities can be loaded as given below
 ````C#
 var invoiceItems = db.GetChildItems(invoice, typeof(InvoiceItem));
-    // OR - use given column of child table
+    // OR
 var invoiceItems = db.GetChildItems(invoice, typeof(InvoiceItem), "InvoiceId");    
-    // OR - use given columns of parent and child tables
+    // OR
 var invoiceItems = db.GetChildItems(invoice, "InvoiceId", typeof(InvoiceItem), "InvoiceId");    
     
 // Hint: IgnoreAttribute can also be set to nested properties, to ignore them in CRUD operations
