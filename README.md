@@ -311,6 +311,13 @@ public DateTime? DateModified { get; set; }
 //      set RequiredDbSchema attribute - to generate NOT NULL for property in script,
 //                           while Required attribute is for client-side validation(not for schema generation)
 //      set NumberDbSchema(precision, scale) - to change precision and scale for decimal/double/float/numeric properties
+//      create separate class for db-migration to manage columns removed from table like below
+//              [Table("Company")]
+//              public class CompanyDbMigration : Company 
+//              { 
+//                  [DbMigrationDrop]
+//                  public string EmaiAddress { get; set; }
+//              }
 ````
 ###### script generated for MySQL
 ````SQL
