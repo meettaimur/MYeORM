@@ -401,18 +401,18 @@ CREATE UNIQUE INDEX IF NOT EXISTS IX_Email ON public.Company(Email);
 ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateCreated timestamp;
 ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateModified timestamp;
 ````
-#### Primary Key and Index Generation
-###### Guid primary key generation
+#### Primary Key and Index Script Generation
+###### Guid primary key
 ````C#
 [Key]
 public Guid CompanyId { get; set; }
 ````
-###### identity primary key generation
+###### Identity primary key
 ````C#
 [Key(autoIncrement:true)]
 public long InvoiceNo { get; set; }
 ````
-###### Guid primary key "non-clustered", while identity column "clustered" (script generation also dependent on database type)
+###### Guid primary key "non-clustered", while identity column "clustered" (note: generation depend on database type as well)
 ````C#
 [Key, Index(isClustered: false, isUnique: true)]
 public Guid InvoiceId { get; set; }
@@ -423,12 +423,12 @@ public long InvoiceNo { get; set; }
 [Index(isClustered: true, isUnique: true, isAutoIncrement: true), Ignore]
 public ulong InvoiceNo { get; set; }
 ````
-###### unique index generation
+###### Unique index generation
 ````C#
 [Index(isUnique: true)]
 public string Email { get; set;}
 ````
-###### composite unique index generation
+###### Composite unique index generation
 ````C#
 [CompositeUniqueIndex(group:1, order:1)]
 public int? Column1 { get; set; }
@@ -436,7 +436,7 @@ public int? Column1 { get; set; }
 [CompositeUniqueIndex(group:1, order:2)]
 public int? Column2 { get; set; }
 ````
-#### Provider Specific Data Types
+#### Provider Specific Data Types Script Generation
 ###### add property to class
 ````C#
 // property for postgres data type
@@ -444,12 +444,10 @@ public NpgsqlTypes.NpgsqlBox BoxProperty { get; set; }
 ````
 ###### register data type
 ````C#
-// register data type
 DbMigrations.Register_DbDataType(typeof(NpgsqlTypes.NpgsqlBox), "box", DbServerType.PostgreSQL);
 ````
 ###### generate script
 ````C#
-// now generate schema script
 var script = DbMigrations.Generate_CreateTable_Script(typeof(YourClassName), "", DbServerType.PostgreSQL);
 ````
 ##### for details please check [db migrations page](https://github.com/meettaimur/MYeORM/blob/master/DB%20Migrations.md) 
