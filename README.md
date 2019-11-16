@@ -302,6 +302,13 @@ public DateTime? DateCreated { get; set; } = DateTime.Now;
 
 [DbMigrationAdd, IgnoreForInsert]
 public DateTime? DateModified { get; set; }
+
+// HINT: 
+//      set DbMigrationAlter attribute - when property is changed e.g. MaxLength changed
+//      set DbMigrationDrop attribute - when column is removed from table
+//      set IgnoreDbSchema attribute - to ignore property for script generation
+//      set RequiredDbSchema attribute - to generate NOT NULL for property in script
+//      set NumberDbSchema(precision, scale) - to change precision and scale for decimal/double/float/numeric properties
 ````
 ###### script generated for MySQL
 ````SQL
