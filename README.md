@@ -16,7 +16,7 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 * DB Migrations management simplified (a different approach than Entity Framework)
 * DB Migrations supported without external dependencies
 * Data Listing support tables/views, paging, sorting and filtering
-* Can be used (but not tested yet) with other protocol compatible databases like MariaDB, Percona Server, Amazon Aurora, Azure Database for MySQL, Google Cloud SQL for MySQL, YugaByte, TimescaleDB, CockroachDB etc.
+* Can be used (but not tested yet) with other protocol compatible databases like, Azure SQL Database, MariaDB, Percona Server, Amazon Aurora, Azure Database for MySQL, Google Cloud SQL for MySQL, YugaByte, TimescaleDB, CockroachDB etc.
 
 
 ## Installation
