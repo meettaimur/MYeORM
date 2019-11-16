@@ -278,7 +278,7 @@ db.ExecuteStoredProcedure("DeleteCompanyById", paramList);
 var outValue = paramList[1].Value;
 ````
 #### Data Transfer
-###### transfer data between databases transparently (NOTE: but is not Bulk copy replacement)
+###### transfer data between databases transparently (NOTE: but is not a Bulk copy/transfer replacement)
 ````C#
 var dbSqlServer = new OrmDbAgent(dbIdSQLServer);
 var dbOracle = new OrmDbAgent(dbIdOracle);
@@ -289,7 +289,12 @@ var companies = dbSqlServer.GetAll<Company>();
 // insert to oracle
 var transactionId = Guid.NewGuid().ToString();
 foreach(var company in companies)
+{
     dbOracle.Insert(company, transactionId);
+    // OR 
+    // (insert or update)
+    dbOracle.Save(company, transactionId);
+}
 
 // commit changes
 dbOracle.CommitTransaction(transactionId);
