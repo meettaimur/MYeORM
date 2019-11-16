@@ -403,16 +403,16 @@ ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateCreated timestamp;
 ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateModified timestamp;
 ````
 ## DB Migrations for Provider Data Types
-#### add property to class
+#### Add property to class
 ````C#
 // property for postgres data type
 public NpgsqlTypes.NpgsqlBox BoxProperty { get; set; }
 ````
-#### register data type
+#### Register data type
 ````C#
 DbMigrations.Register_DbDataType(typeof(NpgsqlTypes.NpgsqlBox), "box", DbServerType.PostgreSQL);
 ````
-#### generate script
+#### Generate script
 ````C#
 var script = DbMigrations.Generate_CreateTable_Script(typeof(YourClassName), "", DbServerType.PostgreSQL);
 ````
