@@ -16,6 +16,7 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 * DB Migrations management simplified (a different approach than Entity Framework)
 * DB Migrations supported without external dependencies
 * Data Listing support tables/views, paging, sorting and filtering
+* Data Transfer between database
 * Can be used (but not tested yet) with other protocol compatible databases like, Azure SQL Database, MariaDB, Percona Server, Amazon Aurora, Azure Database for MySQL, Google Cloud SQL for MySQL, YugaByte, TimescaleDB, CockroachDB etc.
 
 
@@ -276,7 +277,24 @@ db.ExecuteStoredProcedure("DeleteCompanyById", paramList);
 // now get Output parameter value
 var outValue = paramList[1].Value;
 ````
-####
+#### Data Transfer
+###### transfer data between databases transparently (NOTE: but is not Bulk copy replacement)
+````C#
+var dbSqlServer = new OrmDbAgent(dbIdSQLServer);
+var dbOracle = new OrmDbAgent(dbIdOracle);
+
+// get data from sqlserver
+var companies = dbSqlServer.GetAll<Company>();
+var transactionId = Guid.NewGuid().ToString();
+
+// insert to oracle
+foreach(var company in companies)
+    dbOracle.Insert(company, transactionId);
+
+// commit changes
+dbOracle.CommitTransaction(transactionId);
+
+````
 ## DB Migrations
 Built-in db migrations supported for these major databases SQL Server, MySQL, Oracle, PostgreSQL.
 #### Create class
