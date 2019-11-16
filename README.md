@@ -100,11 +100,11 @@ db.DeleteById<Company>(company.CompanyId);
 // save(insert or update)
 db.Save(company);
 
-// HINTS:
+// HINT:
 //      use Column Attribute - if table column name is different than property name
-//      use IgnoreForUpdate Attribute - value ignored during update operation
-//      use IgnoreForInsert Attribute - value ignored during insert operation
-//      use Ignore Attribute - property ignored completely
+//      use IgnoreForUpdate Attribute - to ignore property for update operation
+//      use IgnoreForInsert Attribute - to ignore property for insert operation
+//      use Ignore Attribute - to ignore property completely
 ````
 #### Validation
 ````C#
@@ -443,6 +443,11 @@ public long InvoiceNo { get; set; }
     // OR
 [Index(isClustered: true, isUnique: true, isAutoIncrement: true), Ignore]
 public ulong InvoiceNo { get; set; }
+````
+###### Non-Unique index generation
+````C#
+[Index]
+public string Email { get; set;}
 ````
 ###### Unique index generation
 ````C#
