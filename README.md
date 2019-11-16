@@ -99,6 +99,12 @@ db.DeleteById<Company>(company.CompanyId);
 
 // save(insert or update)
 db.Save(company);
+
+// HINTS:
+//      use Column Attribute - if table column name is different than property name
+//      use IgnoreForUpdate Attribute - value ignored during update operation
+//      use IgnoreForInsert Attribute - value ignored during insert operation
+//      use Ignore Attribute - property ignored completely
 ````
 #### Validation
 ````C#
@@ -427,7 +433,7 @@ public Guid CompanyId { get; set; }
 [Key(autoIncrement:true)]
 public long InvoiceNo { get; set; }
 ````
-###### Guid primary key "non-clustered", while identity column "clustered" (note: generation depend on database type as well)
+###### Guid primary key "non-clustered", while identity column "clustered" (note: generation depends on database type as well)
 ````C#
 [Key, Index(isClustered: false, isUnique: true)]
 public Guid InvoiceId { get; set; }
