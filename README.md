@@ -196,6 +196,28 @@ companies = db.Query<Company>("SELECT CompanyId, Title FROM Company ORDER BY Tit
 var comboList = db.Query<CompanyComboItem>("SELECT CompanyId, Title FROM Company ORDER BY Title");
 
 ````
+###### query views
+````C#
+// create view in database e.g. 'CompaniesBySaleTopTen_view'
+var companies = db.Query<Company>("SELECT * FROM CompaniesBySaleTopTen_view");
+
+// OR   
+// 1) create separate class for view
+    [Table("CompaniesBySaleTopTen_view")]
+    public class CompanyView
+    {
+        [Key]
+        public Guid CompanyId { get; set; }
+        public string Title { get; set; }
+        public string Email { get; set; }
+    }
+    
+// 2) now load data from view
+var companiesTopTenBySale = db.GetAll<CompanyView>();
+    // OR
+var companiesTopTenBySale = db.Query<CompanyView>("SELECT * FROM CompaniesBySaleTopTen_view");
+
+````
 ###### parameterized queries
 ````C#
 // using anonymous class
