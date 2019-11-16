@@ -307,9 +307,9 @@ public DateTime? DateModified { get; set; }
 //      set DbMigrationAlter attribute - when property is changed e.g. MaxLength changed
 //      set DbMigrationDrop attribute - when column is removed from table
 //      set IgnoreDbSchema attribute - to ignore property for script generation
-//                          while Ignore attribute is dedicated for client-side validation and manipulation only
+//                          while Ignore attribute is for client-side validation/manipulation (not for schema generation)
 //      set RequiredDbSchema attribute - to generate NOT NULL for property in script,
-//                           while Required attribute is dedicated for client-side validation only(not for schema generation)
+//                           while Required attribute is for client-side validation(not for schema generation)
 //      set NumberDbSchema(precision, scale) - to change precision and scale for decimal/double/float/numeric properties
 ````
 ###### script generated for MySQL
