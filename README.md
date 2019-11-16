@@ -285,9 +285,9 @@ var dbOracle = new OrmDbAgent(dbIdOracle);
 
 // get data from sqlserver
 var companies = dbSqlServer.GetAll<Company>();
-var transactionId = Guid.NewGuid().ToString();
 
 // insert to oracle
+var transactionId = Guid.NewGuid().ToString();
 foreach(var company in companies)
     dbOracle.Insert(company, transactionId);
 
