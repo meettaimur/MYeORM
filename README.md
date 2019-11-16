@@ -278,7 +278,7 @@ db.ExecuteStoredProcedure("DeleteCompanyById", paramList);
 var outValue = paramList[1].Value;
 ````
 #### Data Transfer
-###### transfer data between databases transparently (NOTE: but is not a Bulk copy/transfer replacement)
+###### transfer data between databases transparently (NOTE: but is not as efficient as BulkCopy/transfer replacement)
 ````C#
 var dbSqlServer = new OrmDbAgent(dbIdSQLServer);
 var dbOracle = new OrmDbAgent(dbIdOracle);
@@ -286,18 +286,18 @@ var dbOracle = new OrmDbAgent(dbIdOracle);
 // get data from sqlserver
 var companies = dbSqlServer.GetAll<Company>();
 
-// insert to oracle
-var transactionId = Guid.NewGuid().ToString();
+// transfer to oracle
+var transId = Guid.NewGuid().ToString();
 foreach(var company in companies)
 {
-    dbOracle.Insert(company, transactionId);
+    dbOracle.Insert(company, transId);
     // OR 
     // (insert or update)
-    dbOracle.Save(company, transactionId);
+    dbOracle.Save(company, transId);
 }
 
 // commit changes
-dbOracle.CommitTransaction(transactionId);
+dbOracle.CommitTransaction(transId);
 
 ````
 ## DB Migrations
@@ -401,8 +401,58 @@ CREATE UNIQUE INDEX IF NOT EXISTS IX_Email ON public.Company(Email);
 ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateCreated timestamp;
 ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateModified timestamp;
 ````
+#### Primary Key and Index Generation
+###### Guid primary key generation
+````C#
+[Key]
+public Guid CompanyId { get; set; }
+````
+###### identity primary key generation
+````C#
+[Key(autoIncrement:true)]
+public long InvoiceNo { get; set; }
+````
+###### Guid primary key "non-clustered", while identity column "clustered" (script generation also dependent on database type)
+````C#
+[Key, Index(isClustered: false, isUnique: true)]
+public Guid InvoiceId { get; set; }
+
+[Index(isClustered: true, isUnique: true, isAutoIncrement: true), Ignore]
+public long InvoiceNo { get; set; }
+    // OR
+[Index(isClustered: true, isUnique: true, isAutoIncrement: true), Ignore]
+public ulong InvoiceNo { get; set; }
+````
+###### unique index generation
+````C#
+[Index(isUnique: true)]
+public string Email { get; set;}
+````
+###### composite unique index generation
+````C#
+[CompositeUniqueIndex(group:1, order:1)]
+public int? Column1 { get; set; }
+
+[CompositeUniqueIndex(group:1, order:2)]
+public int? Column2 { get; set; }
+````
+#### Provider Specific Data Types
+###### add property to class
+````C#
+// property for postgres data type
+public NpgsqlTypes.NpgsqlBox BoxProperty { get; set; }
+````
+###### register data type
+````C#
+// register data type
+DbMigrations.Register_DbDataType(typeof(NpgsqlTypes.NpgsqlBox), "box", DbServerType.PostgreSQL);
+````
+###### generate script
+````C#
+// now generate schema script
+var script = DbMigrations.Generate_CreateTable_Script(typeof(YourClassName), "", DbServerType.PostgreSQL);
+````
 ##### for details please check [db migrations page](https://github.com/meettaimur/MYeORM/blob/master/DB%20Migrations.md) 
-####
 ## Data Listing
 ##### for details please check [data listing page](https://github.com/meettaimur/MYeORM/blob/master/Data%20Listing.md) 
 ####
