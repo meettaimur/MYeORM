@@ -15,6 +15,7 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 * Sequential Guid generator
 * DB Migrations management simplified (a different approach than Entity Framework)
 * DB Migrations supported without external dependencies
+* DB Migrations support Provider Data Types
 * Data Listing support tables/views, paging, sorting and filtering
 * Transfer Data between databases
 * Can be used (but not tested yet) with other protocol compatible databases like, Azure SQL Database, MariaDB, Percona Server, Amazon Aurora, Azure Database for MySQL, Google Cloud SQL for MySQL, YugaByte, TimescaleDB, CockroachDB etc.
@@ -401,6 +402,20 @@ CREATE UNIQUE INDEX IF NOT EXISTS IX_Email ON public.Company(Email);
 ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateCreated timestamp;
 ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateModified timestamp;
 ````
+## DB Migrations for Provider Data Types
+#### add property to class
+````C#
+// property for postgres data type
+public NpgsqlTypes.NpgsqlBox BoxProperty { get; set; }
+````
+#### register data type
+````C#
+DbMigrations.Register_DbDataType(typeof(NpgsqlTypes.NpgsqlBox), "box", DbServerType.PostgreSQL);
+````
+#### generate script
+````C#
+var script = DbMigrations.Generate_CreateTable_Script(typeof(YourClassName), "", DbServerType.PostgreSQL);
+````
 #### Primary Key and Index Script Generation
 ###### Guid primary key
 ````C#
@@ -435,20 +450,6 @@ public int? Column1 { get; set; }
 
 [CompositeUniqueIndex(group:1, order:2)]
 public int? Column2 { get; set; }
-````
-#### Provider Specific Data Types Script Generation
-###### add property to class
-````C#
-// property for postgres data type
-public NpgsqlTypes.NpgsqlBox BoxProperty { get; set; }
-````
-###### register data type
-````C#
-DbMigrations.Register_DbDataType(typeof(NpgsqlTypes.NpgsqlBox), "box", DbServerType.PostgreSQL);
-````
-###### generate script
-````C#
-var script = DbMigrations.Generate_CreateTable_Script(typeof(YourClassName), "", DbServerType.PostgreSQL);
 ````
 ##### for details please check [db migrations page](https://github.com/meettaimur/MYeORM/blob/master/DB%20Migrations.md) 
 ## Data Listing
