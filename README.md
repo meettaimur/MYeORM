@@ -556,7 +556,9 @@ db.SetViewFilter(view.Id, fieldName, userDateInput, filterOperator);
 page = db.ExecuteView(view.Id, ViewPageActionType.First);
 
 // apply date range filter
-db.SetViewFilter(view.Id, fieldName, userDateInput, filterOperator, DateTime.Now.Date.AddDays(3));
+var userDateInput = DateTime.Now.Date.AddDays(-3);
+var endDateInput = DateTime.Now.Date;
+db.SetViewFilter(view.Id, fieldName, userDateInput, filterOperator, endDateInput);
 page = db.ExecuteView(view.Id, ViewPageActionType.First);
 ````
 ###### apply filter across all filterable fields, excluding date/time fields
