@@ -593,7 +593,7 @@ db.SetViewFilter(view.Id, fieldName, userInput, filterOperator);
 page = db.ExecuteView(view.Id, ViewPageActionType.First);
 ````
 #### Related Table View
-###### a view to list contacts of a given company
+###### see view to list contacts of a given company
 ````C#
 [Table("Contact"), DefaultOrderByClause("FullName"), Caption("Company Contacts"), DefaultWhereClause("CompanyId = @CompanyId")]
 public class CompanyContactsView
@@ -622,7 +622,7 @@ relatedParameter.ParamValue = selectedCompany.CompanyId;
 page = db.ExecuteView(relatedView.Id, ViewPageActionType.First, rp: relatedParameter);
 ````
 #### Child Table View
-###### a view to list invoice-items of given invoice
+###### see view to list invoice-items of given invoice
 ````C#
 [Table("InvoiceItem"), DefaultOrderByClause("SerialNo"), Caption("Invoice Items"), DefaultWhereClause("InvoiceId = @InvoiceId")]
 public class InvoiceItemView
@@ -652,10 +652,10 @@ var page = db.ExecuteView(childView.Id, ViewPageActionType.First, pageSize: 25);
 childParameter.ParamValue = selectedInvoice.InvoiceId;
 page = db.ExecuteView(childView.Id, ViewPageActionType.First, rp: childParameter);
 ````
-#### Adhoc/Dynamic Parameterized View
-###### create adhoc parameter provider class
+#### Dynamic/Adhoc Parameterized View
+###### create dynamic parameters provider class
 ````C#
-public class CompanyViewAdhocParametersProvider : ICustomViewQuery_DynamicParametersProvider
+public class CompanyViewParametersProvider : ICustomViewQuery_DynamicParametersProvider
 {
     // list companies registered in last 7 days
     public Dictionary<string, object> GetDynamicParameters(string viewEntityTypeName)
@@ -668,20 +668,18 @@ public class CompanyViewAdhocParametersProvider : ICustomViewQuery_DynamicParame
     }
 }
 ````
-###### now modify CompanyViewAll class to support dynamic parameters
+###### modify CompanyViewAll class to support dynamic parameters as well
 ````C#
     [Table("Company"), DefaultOrderByClause("Title"), 
      Caption("All Companies"), 
-     CustomViewQuery("SELECT * FROM Company", typeof(CompanyViewAdhocParametersProvider)),
+     CustomViewQuery("SELECT * FROM Company", typeof(CompanyViewParametersProvider)),
      DefaultWhereClause("DateCreated >= @RangeStartDate AND DateCreated <= @RangeEndDate ")]
     public class CompanyViewAll
     {
-        .... 
-        all properties of this class
-        ....
+        properties ...
     }
 ````
-###### register view and load paged data
+###### now register view and load paged data
 ````C#
 var view = db.RegisterView(typeof(CompanyViewAll));
 var page = db.ExecuteView(view.Id, ViewPageActionType.First, pageSize: 25);
