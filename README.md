@@ -22,8 +22,8 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 
 ### Table of Contents
 
-##### Installation
-##### Overview
+#### Installation
+#### Overview
 * Register Connection
 * Basic Operations
 * Validation
@@ -33,25 +33,25 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 * Query Data
 * Stored Procedures
 * Data Transfer
-##### DB Migrations
+#### DB Migrations
 * Create class
 * Generate Schema Script
 * Add Index to Property
 * Add More Properties to class
 * Generate Scripts
-##### DB Migrations for Provider Data Types
+#### DB Migrations for Provider Data Types
 * Add Property to class
 * Register Data Type
 * Generate Script
 * Primary Key and Index Script Generation
-##### Data Listing
+#### Data Listing
 * Create View class
 * Register View
 * Manipulate View
 * Related Table View
 * Child Table View
 * Dynamic/Adhoc Parameterized View
-##### Who is Using
+#### Who is Using
 
 ## Installation
 get from [MYeORM nuget package](https://www.nuget.org/packages/MYeORM/)
