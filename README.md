@@ -652,5 +652,39 @@ var page = db.ExecuteView(childView.Id, ViewPageActionType.First, pageSize: 25);
 childParameter.ParamValue = selectedInvoice.InvoiceId;
 page = db.ExecuteView(childView.Id, ViewPageActionType.First, rp: childParameter);
 ````
+#### Adhoc/Dynamic Parameterized View
+###### create adhoc parameter provider class
+````C#
+public class CompanyViewAdhocParametersProvider : ICustomViewQuery_DynamicParametersProvider
+{
+    // list companies registered in last 7 days
+    public Dictionary<string, object> GetDynamicParameters(string viewEntityTypeName)
+    {
+        return new Dictionary<string, object>()
+        {
+            { "RangeStartDate", DateTime.Now.Date.AddDays(-7) },
+            { "RangeEndDate", DateTime.Now.AddDays(1).Date }
+        };
+    }
+}
+````
+###### now modify CompanyViewAll class to support dynamic parameters
+````C#
+    [Table("Company"), DefaultOrderByClause("Title"), 
+     Caption("All Companies"), 
+     CustomViewQuery("SELECT * FROM Company", typeof(CompanyViewAdhocParametersProvider)),
+     DefaultWhereClause("DateCreated >= @RangeStartDate AND DateCreated <= @RangeEndDate ")]
+    public class CompanyViewAll
+    {
+        .... 
+        all properties of this class
+        ....
+    }
+````
+###### register view and load paged data
+````C#
+var view = db.RegisterView(typeof(CompanyViewAll));
+var page = db.ExecuteView(view.Id, ViewPageActionType.First, pageSize: 25);
+````
 ## Who is using
 We are using in our own projects for years
