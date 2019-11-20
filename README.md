@@ -565,7 +565,7 @@ page = db.ExecuteView(view.Id, ViewPageActionType.First);
 ````C#
 fieldName = "AllFields";
 userInput = "micro";
-filterOperator = (int)ViewFilterComparisonOperator.Contains;        // 'Contains' supported only for "AllFields"
+filterOperator = (int)ViewFilterComparisonOperator.Contains;        // 'Contains' operator is supported only for "AllFields"
 
 db.SetViewFilter(view.Id, fieldName, userInput, filterOperator);
 page = db.ExecuteView(view.Id, ViewPageActionType.First);
