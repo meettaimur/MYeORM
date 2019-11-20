@@ -464,19 +464,131 @@ public int? Column2 { get; set; }
 ````
 ##### for details please check [db migrations page](https://github.com/meettaimur/MYeORM/blob/master/DB%20Migrations.md) 
 ## Data Listing
-##### for details please check [data listing page](https://github.com/meettaimur/MYeORM/blob/master/Data%20Listing.md) 
-####
-## Limitations
-* nested child or parent entities not supported to keep it in spirit with tables in RDBMS, however child entities can be loaded as given below
+#### Create View Class
 ````C#
-var invoiceItems = db.GetChildItems(invoice, typeof(InvoiceItem));
-    // OR
-var invoiceItems = db.GetChildItems(invoice, typeof(InvoiceItem), "InvoiceId");    
-    // OR
-var invoiceItems = db.GetChildItems(invoice, "InvoiceId", typeof(InvoiceItem), "InvoiceId");    
-    
-// Hint: IgnoreAttribute can also be set to nested properties, to ignore them in CRUD operations
-````
+[Table("Company"), DefaultOrderByClause("Title"), Caption("All Companies")]
+public class CompanyViewAll
+{
+    [Key]
+    public Guid CompanyId { get; set; }
 
+    [Filterable]
+    public string Title { get; set; }
+
+    public string Email { get; set; }
+
+    [Filterable]
+    public DateTime? DateCreated { get; set; }
+}
+    
+// HINT: use CustomViewQuery Attribute to
+//      1) provide custom query, (note: complex queries not supported)
+            [Table("Company"), DefaultOrderByClause("Title"), Caption("All Companies"), CustomViewQuery("SELECT CompanyId, Title, Email, DateCreated FROM Company")]
+            public class CompanyViewAll { ... }
+
+//      2) use view from database
+            [Table("Company"), DefaultOrderByClause("Title"), Caption("All Companies"), CustomViewQuery("SELECT * FROM allcompanies_view")]
+            public class CompanyViewAll { ... }
+````
+#### Register View
+````C#
+var view = db.RegisterView(typeof(CompanyViewAll));
+
+var id = view.Id;
+var title = view.Title; // e.g. "All Companies"
+var entityType = view.EntityType;
+
+// get all filterable fields
+PickComboItems filterableFields = db.GetViewFilterableFields(view.Id);
+// where
+//      DisplayText = property name or caption
+//      Key = property name or column name
+````
+#### Manipulate View
+````C#
+var page = db.ExecuteView(view.Id, ViewPageActionType.First, pageSize: 25);
+
+page = db.ExecuteView(view.Id, ViewPageActionType.Next);
+page = db.ExecuteView(view.Id, ViewPageActionType.Previous);
+page = db.ExecuteView(view.Id, ViewPageActionType.Last);
+page = db.ExecuteView(view.Id, ViewPageActionType.Refresh);
+page = db.ExecuteView(view.Id, ViewPageActionType.All);
+
+page = db.ExecuteView(view.Id, ViewPageActionType.First);
+
+// page properties:
+//      page.ViewId                         = view.Id
+//      page.CurrenPage                     = 1;
+//      page.FirstItemIndex                 = 1;
+//      page.LastItemIndex                  = 25;
+//      page.TotalItemsCount                = 300;
+//      page.PageActionType                 = ViewPageActionType.First;
+//      page.PageSize                       = 25;
+//      page.Items                          = List<object>;
+````
+###### change sort column
+````C#
+db.SetViewSortColumn(view.Id, "Title", isAscending: true);
+page = db.ExecuteView(view.Id, ViewPageActionType.First);
+````
+###### apply filter
+````C#
+var fieldName = "Title";            // OR: nameof(CompanyViewAll.Title);
+var userInput = "micro";
+var filterOperator = (int)ViewFilterComparisonOperator.Contains;
+
+db.SetViewFilter(view.Id, fieldName, userInput, filterOperator);
+page = db.ExecuteView(view.Id, ViewPageActionType.First);
+````
+###### clear filter
+````C#
+db.ClearViewFilter(view.Id);
+
+// SetViewFilter(...) also auto clears the existing filter
+````
+###### apply date filter
+````C#
+fieldName = "DateCreated";
+var userDateInput = DateTime.Now.Date;      // for a single day
+filterOperator = (int)ViewFilterComparisonOperator.Equal;
+
+db.SetViewFilter(view.Id, fieldName, userDateInput, filterOperator);
+page = db.ExecuteView(view.Id, ViewPageActionType.First);
+
+// apply date range filter
+db.SetViewFilter(view.Id, fieldName, userDateInput, filterOperator, DateTime.Now.Date.AddDays(3));
+page = db.ExecuteView(view.Id, ViewPageActionType.First);
+````
+###### apply filter across all filterable fields, excluding date/time fields
+````C#
+fieldName = "AllFields";
+userInput = "micro";
+filterOperator = (int)ViewFilterComparisonOperator.Contains;        // 'Contains' supported only for "AllFields"
+
+db.SetViewFilter(view.Id, fieldName, userInput, filterOperator);
+page = db.ExecuteView(view.Id, ViewPageActionType.First);
+````
+###### filter operators supported for each data type
+````C#
+var operators = db.GetFilterOperatorsForString();
+operators = db.GetFilterOperatorsForIntegerDecimalAndDateTime();
+operators = db.GetFilterOperatorsForAllFields();
+
+// where
+//      DisplayText = caption       (changeable)
+//      Key = enum ViewFilterComparisonOperator     e.g. ((int)ViewFilterComparisonOperator.Equal).ToString();
+````
+###### apply filter on user selected field/operator
+````C#
+var userSelectedField = viewFilterableFields[1];                    // hint: db.GetViewFilterableFields(view.Id);
+var userSelectedOperator = int.Parse(operators[0].Key);
+
+fieldName = userSelectedField.Key;
+filterOperator = userSelectedOperator;
+userInput = "micro";
+
+db.SetViewFilter(view.Id, fieldName, userInput, filterOperator);
+page = db.ExecuteView(view.Id, ViewPageActionType.First);
+````
 ## Who is using
 We are using in our own projects for years
