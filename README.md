@@ -24,7 +24,7 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 1. **Installation**
 2. **Overview**
     * Register Connection
-    * Basic Operations
+    * CRUD Operations
    * Validations
    * Transactions
    * Threadsafe Operations
@@ -105,7 +105,7 @@ public class Company
     public DateTime? DateModified { get; set; }
 }
 ````
-#### Basic Operations
+#### CRUD Operations
 ````C#
 // create db agent
 var db = new OrmDbAgent(dbId);
