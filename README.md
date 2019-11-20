@@ -22,40 +22,40 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 
 ### Table of Contents
 1. **Installation**
-2. **Overview**
-    * Register Connection
-    * CRUD Operations
+2. **Get Started**
+   * Register Connection
+   * CRUD Operations
    * Validations
    * Transactions
    * Threadsafe Operations
-   * Extend OrmDbAgent
-   * Query Data
+   * Executing Queries
    * Stored Procedures
-   * Transfer Data
-3. **DB Migrations**
+   * Data Transfer
+   * Extend OrmDbAgent
+3. **Manage DB Migrations**
    * Design Class
-   * Generate Schema Script
-   * Add Index to Property
-   * Add Properties to class
+   * Generate Schema Scripts
+   * Index Property
+   * Add/Drop/Alter Properties
    * Generate Scripts
 4. **DB Migrations for Provider Data Types**
-   * Add Property to class
-   * Register Data Type
-   * Generate Script
-   * Primary Key and Index Script Generation
-5. **Data Listing**
+   * Add Provider Property
+   * Register Provider Data Type
+   * Generate Scripts
+   * Primary Key and Index Scripts
+5. **Data Listing (tables/views, sorting, paging, filtering)**
    * Design View
    * Register View
    * Manipulate View
    * Related Table View
    * Child Table View
-   * Dynamic/Adhoc Parameterized View
+   * Dynamic Parameterized View
 
 
 ## Installation
 get from [MYeORM nuget package](https://www.nuget.org/packages/MYeORM/)
 
-## Overview
+## Get Started
 
 #### Register Connection
 ````c#
@@ -137,7 +137,7 @@ db.Save(company);
 //      use IgnoreForInsert Attribute - to ignore property for insert operation
 //      use Ignore Attribute - to ignore property completely
 ````
-#### Validation
+#### Validations
 ````C#
 Dictionary<string, string> errors = db.ValidateEntity(company);
 
@@ -194,20 +194,7 @@ DB.RollbackTransaction(transactionId);
 
 // HINT: OrmDbAgent is using DB class internally
 ````
-#### Extend OrmDbAgent
-###### Inherit and extend the agent class to meet your custom requirements
-````C#
-public class LoggedUser : OrmDbAgent
-{
-    public LoggedUser(string dbId) : base(dbId) { }
-
-    public Guid UserId { get; set; }
-    public string UserName { get; set; }
-    
-    // add more properties or methods as per your requirement
-};
-````
-#### Query Data
+#### Executing Queries
 ###### queries
 ````C#
 // all
@@ -338,9 +325,22 @@ foreach(var company in companies)
 dbOracle.CommitTransaction(transId);
 
 ````
-## DB Migrations
+#### Extend OrmDbAgent
+###### Inherit and extend the agent class to meet your custom requirements
+````C#
+public class LoggedUser : OrmDbAgent
+{
+    public LoggedUser(string dbId) : base(dbId) { }
+
+    public Guid UserId { get; set; }
+    public string UserName { get; set; }
+    
+    // add more properties or methods as per your requirement
+};
+````
+## Manage DB Migrations
 Built-in db migrations supported for these major databases SQL Server, MySQL, Oracle, PostgreSQL.
-#### Create Class
+#### Design Class
 ````C#
 public class Company
 {
@@ -357,7 +357,7 @@ public class Company
     public string Email { get; set; }
 }
 ````
-#### Generate Schema Script
+#### Generate Schema Scripts
 ````C#
 // generate script for mysql
 var script =  DbMigrations.Generate_CreateTable_Script(typeof(Company), "", DbServerType.MySQL);
@@ -368,7 +368,7 @@ var script = DbMigrations.Generate_CreateTable_Script(new List<Type>() { typeof(
 ````SQL
 CREATE TABLE IF NOT EXISTS Company (CompanyId CHAR(36) BINARY DEFAULT '' NOT NULL,Title nvarchar(100),Phone nvarchar(25),Email nvarchar(150) , primary key (CompanyId)) engine=InnoDb auto_increment=0;
 ````
-#### Add Index to Property
+#### Index Property
 ````C#
 [MaxLength(150), EmailAddress, Index(isUnique:true)]
 public string Email { get; set; }
@@ -378,7 +378,7 @@ public string Email { get; set; }
 CREATE TABLE IF NOT EXISTS Company (CompanyId CHAR(36) BINARY DEFAULT '' NOT NULL,Title nvarchar(100),Phone nvarchar(25),Email nvarchar(150) , primary key (CompanyId)) engine=InnoDb auto_increment=0;
 CREATE UNIQUE INDEX IX_Email ON Company(Email DESC) using HASH;
 ````
-#### Add more Properties to class
+#### Add/Drop/Alter Properties
 ````C#
 [DbMigrationAdd, IgnoreForUpdate]
 public DateTime? DateCreated { get; set; } = DateTime.Now;
@@ -440,20 +440,20 @@ ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateCreated timestamp;
 ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateModified timestamp;
 ````
 ## DB Migrations for Provider Data Types
-#### Add Property to class
+#### Add Provider Property
 ````C#
 // property for postgres data type
 public NpgsqlTypes.NpgsqlBox BoxProperty { get; set; }
 ````
-#### Register data type
+#### Register Provider Data Type
 ````C#
 DbMigrations.Register_DbDataType(typeof(NpgsqlTypes.NpgsqlBox), "box", DbServerType.PostgreSQL);
 ````
-#### Generate Script
+#### Generate Scripts
 ````C#
 var script = DbMigrations.Generate_CreateTable_Script(typeof(YourClassName), "", DbServerType.PostgreSQL);
 ````
-#### Primary Key and Index Script Generation
+#### Primary Key and Index Scripts
 ###### Guid primary key
 ````C#
 [Key]
@@ -495,7 +495,7 @@ public int? Column2 { get; set; }
 ````
 ##### for details please check [db migrations page](https://github.com/meettaimur/MYeORM/blob/master/DB%20Migrations.md) 
 ## Data Listing
-#### Create View Class
+#### Design View
 ````C#
 [Table("Company"), DefaultOrderByClause("Title"), Caption("All Companies")]
 public class CompanyViewAll
@@ -535,7 +535,7 @@ PickComboItems filterableFields = db.GetViewFilterableFields(view.Id);
 //      DisplayText = property name or caption
 //      Key = property name or column name
 ````
-#### Manipulate View
+#### Manipulate View (tables/views, sorting, paging, filtering)
 ````C#
 var page = db.ExecuteView(view.Id, ViewPageActionType.First, pageSize: 25);
 
@@ -683,7 +683,7 @@ var page = db.ExecuteView(childView.Id, ViewPageActionType.First, pageSize: 25);
 childParameter.ParamValue = selectedInvoice.InvoiceId;
 page = db.ExecuteView(childView.Id, ViewPageActionType.First, rp: childParameter);
 ````
-#### Dynamic/Adhoc Parameterized View
+#### Dynamic Parameterized View
 ###### create dynamic parameters provider class
 ````C#
 public class CompanyViewParametersProvider : ICustomViewQuery_DynamicParametersProvider
