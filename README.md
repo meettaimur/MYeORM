@@ -20,14 +20,41 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 * Transfer Data between databases
 * Can be used (but not tested yet) with other protocol compatible databases like, Azure SQL Database, MariaDB, Percona Server, Amazon Aurora, Azure Database for MySQL, Google Cloud SQL for MySQL, YugaByte, TimescaleDB, CockroachDB etc.
 
-SEE Topics
-===========
+#### Table of Contents
+
 Installation
 Overview
+* Register Connection
+* Basic Operations
+* Validation
+* Transactions
+* Threadsafe Operations
+* Extend OrmDbAgent
+* Query Data
+* Stored Procedures
+* Data Transfer
+
 DB Migrations
+* Create class
+* Generate Schema Script
+* Add Index to Property
+* Add More Properties to class
+* Generate Scripts
+
 DB Migrations for Provider Data Types
+* Add Property to class
+* Register Data Type
+* Generate Script
+* Primary Key and Index Script Generation
+
 Data Listing
-Dynamic/Adhoc Parameterized Views
+* Create View class
+* Register View
+* Manipulate View
+* Related Table View
+* Child Table View
+* Dynamic/Adhoc Parameterized View
+
 Who is Using
 
 ## Installation
@@ -318,7 +345,7 @@ dbOracle.CommitTransaction(transId);
 ````
 ## DB Migrations
 Built-in db migrations supported for these major databases SQL Server, MySQL, Oracle, PostgreSQL.
-#### Create class
+#### Create Class
 ````C#
 public class Company
 {
@@ -346,7 +373,7 @@ var script = DbMigrations.Generate_CreateTable_Script(new List<Type>() { typeof(
 ````SQL
 CREATE TABLE IF NOT EXISTS Company (CompanyId CHAR(36) BINARY DEFAULT '' NOT NULL,Title nvarchar(100),Phone nvarchar(25),Email nvarchar(150) , primary key (CompanyId)) engine=InnoDb auto_increment=0;
 ````
-#### Add Index to property
+#### Add Index to Property
 ````C#
 [MaxLength(150), EmailAddress, Index(isUnique:true)]
 public string Email { get; set; }
@@ -418,7 +445,7 @@ ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateCreated timestamp;
 ALTER TABLE public.Company ADD COLUMN IF NOT EXISTS DateModified timestamp;
 ````
 ## DB Migrations for Provider Data Types
-#### Add property to class
+#### Add Property to class
 ````C#
 // property for postgres data type
 public NpgsqlTypes.NpgsqlBox BoxProperty { get; set; }
@@ -427,7 +454,7 @@ public NpgsqlTypes.NpgsqlBox BoxProperty { get; set; }
 ````C#
 DbMigrations.Register_DbDataType(typeof(NpgsqlTypes.NpgsqlBox), "box", DbServerType.PostgreSQL);
 ````
-#### Generate script
+#### Generate Script
 ````C#
 var script = DbMigrations.Generate_CreateTable_Script(typeof(YourClassName), "", DbServerType.PostgreSQL);
 ````
