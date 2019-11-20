@@ -593,7 +593,7 @@ db.SetViewFilter(view.Id, fieldName, userInput, filterOperator);
 page = db.ExecuteView(view.Id, ViewPageActionType.First);
 ````
 #### Related Table View
-###### to list contacts of a given company
+###### a view to list contacts of a given company
 ````C#
 [Table("Contact"), DefaultOrderByClause("FullName"), Caption("Company Contacts"), DefaultWhereClause("CompanyId = @CompanyId")]
 public class CompanyContactsView
@@ -622,7 +622,7 @@ relatedParameter.ParamValue = selectedCompany.CompanyId;
 page = db.ExecuteView(relatedView.Id, ViewPageActionType.First, rp: relatedParameter);
 ````
 #### Child Table View
-###### to list invoice-items of given invoice
+###### a view to list invoice-items of given invoice
 ````C#
 [Table("InvoiceItem"), DefaultOrderByClause("SerialNo"), Caption("Invoice Items"), DefaultWhereClause("InvoiceId = @InvoiceId")]
 public class InvoiceItemView
