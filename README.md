@@ -580,7 +580,7 @@ operators = db.GetFilterOperatorsForAllFields();
 //      DisplayText = caption       (changeable)
 //      Key = enum ViewFilterComparisonOperator     e.g. ((int)ViewFilterComparisonOperator.Equal).ToString();
 ````
-###### apply filter on user selected field/operator
+###### apply filter - user selected field and operator on UI
 ````C#
 var userSelectedField = viewFilterableFields[1];                    // hint: db.GetViewFilterableFields(view.Id);
 var userSelectedOperator = int.Parse(operators[0].Key);
