@@ -21,7 +21,7 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 * Can be used (but not tested yet) with other protocol compatible databases like, Azure SQL Database, MariaDB, Percona Server, Amazon Aurora, Azure Database for MySQL, Google Cloud SQL for MySQL, YugaByte, TimescaleDB, CockroachDB etc.
 
 ### Table of Contents
-**Installation**
+1. **Installation**
 **Overview**
 * Register Connection
 * Basic Operations
