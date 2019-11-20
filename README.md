@@ -592,7 +592,7 @@ userInput = "micro";
 db.SetViewFilter(view.Id, fieldName, userInput, filterOperator);
 page = db.ExecuteView(view.Id, ViewPageActionType.First);
 ````
-#### Related View
+#### Related Table View
 ###### to list contacts of a given company
 ````C#
 [Table("Contact"), DefaultOrderByClause("FullName"), Caption("Company Contacts"), DefaultWhereClause("CompanyId = @CompanyId")]
@@ -621,7 +621,7 @@ var page = db.ExecuteView(relatedView.Id, ViewPageActionType.First, pageSize: 25
 relatedParameter.ParamValue = selectedCompany.CompanyId;
 page = db.ExecuteView(relatedView.Id, ViewPageActionType.First, rp: relatedParameter);
 ````
-#### Child View
+#### Child Table View
 ###### to list invoice-items of given invoice
 ````C#
 [Table("InvoiceItem"), DefaultOrderByClause("SerialNo"), Caption("Invoice Items"), DefaultWhereClause("InvoiceId = @InvoiceId")]
