@@ -23,9 +23,34 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 ### Table of Contents
 ##### Installation
 ##### Overview
+* Register Connection
+* Basic Operations
+* Validations
+* Transactions
+* Threadsafe Operations
+* Extend OrmDbAgent
+* Query Data
+* Stored Procedures
+* Transfer Data
 ###### DB Migrations
+* Design Class
+* Generate Schema Script
+* Add Index to Property
+* Add Properties to class
+* Generate Scripts
 ##### DB Migrations for Provider Data Types
+* Add Property to class
+* Register Data Type
+* Generate Script
+* Primary Key and Index Script Generation
 ##### Data Listing
+* Create View
+* Register View
+* Manipulate View
+* Related Table View
+* Child Table View
+* Dynamic/Adhoc Parameterized View
+
 
 ## Installation
 get from [MYeORM nuget package](https://www.nuget.org/packages/MYeORM/)
