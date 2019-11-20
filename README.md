@@ -21,37 +21,11 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 * Can be used (but not tested yet) with other protocol compatible databases like, Azure SQL Database, MariaDB, Percona Server, Amazon Aurora, Azure Database for MySQL, Google Cloud SQL for MySQL, YugaByte, TimescaleDB, CockroachDB etc.
 
 ### Table of Contents
-
-#### Installation
-#### Overview
-* Register Connection
-* Basic Operations
-* Validation
-* Transactions
-* Threadsafe Operations
-* Extend OrmDbAgent
-* Query Data
-* Stored Procedures
-* Data Transfer
-#### DB Migrations
-* Create class
-* Generate Schema Script
-* Add Index to Property
-* Add More Properties to class
-* Generate Scripts
-#### DB Migrations for Provider Data Types
-* Add Property to class
-* Register Data Type
-* Generate Script
-* Primary Key and Index Script Generation
-#### Data Listing
-* Create View class
-* Register View
-* Manipulate View
-* Related Table View
-* Child Table View
-* Dynamic/Adhoc Parameterized View
-#### Who is Using
+##### Installation
+##### Overview
+###### DB Migrations
+##### DB Migrations for Provider Data Types
+##### Data Listing
 
 ## Installation
 get from [MYeORM nuget package](https://www.nuget.org/packages/MYeORM/)
