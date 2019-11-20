@@ -592,5 +592,65 @@ userInput = "micro";
 db.SetViewFilter(view.Id, fieldName, userInput, filterOperator);
 page = db.ExecuteView(view.Id, ViewPageActionType.First);
 ````
+#### Related View
+###### to list contacts of a given company
+````C#
+[Table("Contact"), DefaultOrderByClause("FullName"), Caption("Company Contacts"), DefaultWhereClause("CompanyId = @CompanyId")]
+public class CompanyContactsView
+{
+    [Key]
+    public Guid ContactId { get; set; }
+    public Guid CompanyId { get; set; }
+
+    [Filterable]
+    public string FullName { get; set; }
+}
+
+// register view
+var relatedParameter = new ViewRelatedDynamicParameter()
+{
+    ParamName = "CompanyId",
+    ParamValue = Guid.Empty
+};
+var relatedView = db.RegisterView(typeof(CompanyContactsView), relatedParameter);
+
+// no record fetched as ParameValue = Guid.Empty
+var page = db.ExecuteView(relatedView.Id, ViewPageActionType.First, pageSize: 25);
+
+// now set company id
+relatedParameter.ParamValue = selectedCompany.CompanyId;
+page = db.ExecuteView(relatedView.Id, ViewPageActionType.First, rp: relatedParameter);
+````
+#### Child View
+###### to list invoice-items of given invoice
+````C#
+[Table("InvoiceItem"), DefaultOrderByClause("SerialNo"), Caption("Invoice Items"), DefaultWhereClause("InvoiceId = @InvoiceId")]
+public class InvoiceItemView
+{
+    [Key]
+    public Guid InvoiceItemId { get; set; }
+    public Guid InvoiceId { get; set; }
+
+    public int? SerialNo { get; set; }
+    
+    [Filterable]
+    public string Description { get; set; }
+}
+
+// register view
+var childParameter = new ViewRelatedDynamicParameter()
+{
+    ParamName = "InvoiceId",
+    ParamValue = Guid.Empty
+};
+var childView = db.RegisterView(typeof(InvoiceItemView), childParameter);
+
+// no record fetched as ParameValue = Guid.Empty
+var page = db.ExecuteView(childView.Id, ViewPageActionType.First, pageSize: 25);
+
+// now set invoice id
+childParameter.ParamValue = selectedInvoice.InvoiceId;
+page = db.ExecuteView(childView.Id, ViewPageActionType.First, rp: childParameter);
+````
 ## Who is using
 We are using in our own projects for years
