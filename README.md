@@ -23,8 +23,8 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 ### Table of Contents
 1. **Installation**
 2. **Overview**
-* Register Connection
-* Basic Operations
+    * Register Connection
+    * Basic Operations
 * Validations
 * Transactions
 * Threadsafe Operations
