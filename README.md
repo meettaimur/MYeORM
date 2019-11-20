@@ -23,6 +23,8 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 #### Table of Contents
 
 Installation
+````C#
+````
 Overview
 * Register Connection
 * Basic Operations
