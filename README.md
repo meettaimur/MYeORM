@@ -25,31 +25,31 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 2. **Overview**
     * Register Connection
     * Basic Operations
-* Validations
-* Transactions
-* Threadsafe Operations
-* Extend OrmDbAgent
-* Query Data
-* Stored Procedures
-* Transfer Data
+   * Validations
+   * Transactions
+   * Threadsafe Operations
+   * Extend OrmDbAgent
+   * Query Data
+   * Stored Procedures
+   * Transfer Data
 3. **DB Migrations**
-* Design Class
-* Generate Schema Script
-* Add Index to Property
-* Add Properties to class
-* Generate Scripts
+   * Design Class
+   * Generate Schema Script
+   * Add Index to Property
+   * Add Properties to class
+   * Generate Scripts
 4. **DB Migrations for Provider Data Types**
-* Add Property to class
-* Register Data Type
-* Generate Script
-* Primary Key and Index Script Generation
+   * Add Property to class
+   * Register Data Type
+   * Generate Script
+   * Primary Key and Index Script Generation
 5. **Data Listing**
-* Design View
-* Register View
-* Manipulate View
-* Related Table View
-* Child Table View
-* Dynamic/Adhoc Parameterized View
+   * Design View
+   * Register View
+   * Manipulate View
+   * Related Table View
+   * Child Table View
+   * Dynamic/Adhoc Parameterized View
 
 
 ## Installation
