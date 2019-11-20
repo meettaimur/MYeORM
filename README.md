@@ -285,7 +285,7 @@ db.ExecuteStoredProcedure("DeleteCompanyById", paramList);
 var outValue = paramList[1].Value;
 ````
 #### Data Transfer
-###### transfer data between databases transparently (NOTE: but is not as efficient as BulkCopy/transfer replacement)
+###### transfer data between databases transparently
 ````C#
 var dbSqlServer = new OrmDbAgent(dbIdSQLServer);
 var dbOracle = new OrmDbAgent(dbIdOracle);
