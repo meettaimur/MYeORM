@@ -18,6 +18,8 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 * DB Migrations support Provider Data Types
 * Data Listing support tables/views, paging, sorting and filtering
 * Transfer Data between databases
+* Connections auto released to Connection Pool
+* DB Information Schema meta data
 * Can be used (but not tested yet) with other protocol compatible databases like, Azure SQL Database, MariaDB, Percona Server, Amazon Aurora, Azure Database for MySQL, Google Cloud SQL for MySQL, YugaByte, TimescaleDB, CockroachDB etc.
 
 ### Table of Contents
@@ -50,6 +52,7 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
    * Related Table View
    * Child Table View
    * Dynamic Parameterized View
+6. DB Information Schema
 
 
 ## Installation
@@ -714,6 +717,37 @@ public class CompanyViewParametersProvider : ICustomViewQuery_DynamicParametersP
 ````C#
 var view = db.RegisterView(typeof(CompanyViewAll));
 var page = db.ExecuteView(view.Id, ViewPageActionType.First, pageSize: 25);
+````
+## DB Information Schema
+This feature support SQL Server, MySQL and PostgreSQL, to load meta data about database
+````C#
+using (var connection = new MySql.Data.MySqlClient.MySqlConnection("connection string"))
+{
+    connection.Open();
+
+    var tablesAll = connection.Schema_Tables();
+    var viewsAll = connection.Schema_Views();
+    var primaryKeysAll = connection.Schema_PrimaryKeys();
+
+    var existsTable = connection.Schema_TableExist("table_name");
+    var existsView = connection.Schema_ViewExist("view_name");
+    var existsColumn = connection.Schema_ColumnExist("table_name", "column_name");
+
+    var tableColumns = connection.Schema_Columns("table_name");
+    var tablePrimaryKeys = connection.Schema_PrimaryKeys("table_name");
+
+    var functionsAll = connection.Schema_Functions();
+    var function = connection.Schema_Function("function_name");
+
+    var storedProceduresAll = connection.Schema_Procedures();
+    var storedProcedure = connection.Schema_Procedure("procedure_name");
+
+    var parametersAll = connection.Schema_Parameters();
+    var parametersSP = connection.Schema_Parameters("function_or_procedure_name");
+    var parameterSP = connection.Schema_Parameter("function_or_procedure_name", "parameter_name");
+
+    connection.Close();
+}
 ````
 ## Who is using
 We are using in our own projects for years
