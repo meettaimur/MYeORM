@@ -19,7 +19,7 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 * Data Listing support tables/views, paging, sorting and filtering
 * Transfer Data between databases
 * Connections auto released to Connection Pool
-* DB Information Schema meta data
+* DB Information Schema access
 * Can be used (but not tested yet) with other protocol compatible databases like, Azure SQL Database, MariaDB, Percona Server, Amazon Aurora, Azure Database for MySQL, Google Cloud SQL for MySQL, YugaByte, TimescaleDB, CockroachDB etc.
 
 ### Table of Contents
@@ -52,7 +52,7 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
    * Related Table View
    * Child Table View
    * Dynamic Parameterized View
-6. DB Information Schema
+6. **DB Information Schema**
 
 
 ## Installation
@@ -719,7 +719,7 @@ var view = db.RegisterView(typeof(CompanyViewAll));
 var page = db.ExecuteView(view.Id, ViewPageActionType.First, pageSize: 25);
 ````
 ## DB Information Schema
-This feature support SQL Server, MySQL and PostgreSQL, to load meta data about database
+This feature works with SQL Server, MySQL and PostgreSQL
 ````C#
 using (var connection = new MySql.Data.MySqlClient.MySqlConnection("connection string"))
 {
