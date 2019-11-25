@@ -168,8 +168,6 @@ Dictionary<string, string> errors = db.ValidateEntity(company);
 //      Key = property name or caption
 //      Value = error message (default or custom)
 ````
-###### For details please check [validations page](https://github.com/meettaimur/MYeORM/blob/master/Validations.md)
-#####
 #### Transactions
 ````C#
 var transactionId = db.NewGuid().ToString();
@@ -516,7 +514,6 @@ public int? Column1 { get; set; }
 [CompositeUniqueIndex(group:1, order:2)]
 public int? Column2 { get; set; }
 ````
-##### for details please check [db migrations page](https://github.com/meettaimur/MYeORM/blob/master/DB%20Migrations.md) 
 ## Data Listing
 #### Design View
 ````C#
