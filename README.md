@@ -85,8 +85,28 @@ string dbId = DB.RegisterConnectionType<Microsoft.Data.Sqlite.SqliteConnection>(
 
 // to register SQLite connection (System.Data.SQLite)
 string dbId = DB.RegisterConnectionType<System.Data.SQLite.SQLiteConnection>("Data Source=ormsample.sqlitedb;Version=3;New=True;Compress=True;");
+````
+###### to register connection for any compatible RDBMS
+````C#
+// SqlCE
+string dbId = DB.RegisterConnectionType<System.Data.SqlServerCe.SqlCeConnection>("connection string", DbServerType.SQLServer);
 
-// create class
+// VistaDB
+string dbId = DB.RegisterConnectionType<System.Data.VistaDB6.VistaDBConnection>("connection string", DbServerType.SQLServer);
+
+// Amazon Aurora, MariaDB, Percona, MemSQL etc. or for any other mysql compatible database
+string dbId = DB.RegisterConnectionType<MySql.Data.MySqlClient.MySqlConnection>("connection string", DbServerType.MySQL);
+
+// YugaByte, TimescaleDB, CockroachDB etc. or for any other postgresql compatible database
+string string dbId = DB.RegisterConnectionType<Npgsql.NpgsqlConnection>("connection string", DbServerType.PostgreSQL);
+````
+###### to register connection using 3rd party ADO.NET Providers like DataDirect, DevArt, CDATA, etc.
+````C#
+// Data Direct ADO.NET provider
+string dbId = DB.RegisterConnectionType<DDTek.SQLServer.SQLServerConnection>("connection string", DbServerType.SQLServer);
+````
+#### Design Class
+````C#
 public class Company
 {
     [Key]
