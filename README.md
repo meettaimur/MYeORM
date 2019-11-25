@@ -20,7 +20,9 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 * Transfer Data between databases
 * Connections auto released to Connection Pool
 * DB Information Schema access
-* Can be used (but not tested yet) with other protocol compatible databases like, Azure SQL Database, MariaDB, Percona Server, Amazon Aurora, Azure Database for MySQL, Google Cloud SQL for MySQL, YugaByte, TimescaleDB, CockroachDB etc.
+* Any wire protocol compatible databases supported (but not tested yet) like, Amazon Aurora, MariaDB, Percona Server, Azure Database for MySQL, Google Cloud SQL for MySQL, YugaByte, TimescaleDB, CockroachDB etc.
+* Any compatible database supported like VistaDB, SqlCE etc.
+* 3rd Party ADO.NET Providers supported like DataDirect, DevArt and CDATA, MySqlConnector etc.
 
 ### Table of Contents
 1. **Installation**
