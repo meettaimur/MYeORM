@@ -86,7 +86,7 @@ string dbId = DB.RegisterConnectionType<Microsoft.Data.Sqlite.SqliteConnection>(
 // to register SQLite connection (System.Data.SQLite)
 string dbId = DB.RegisterConnectionType<System.Data.SQLite.SQLiteConnection>("Data Source=ormsample.sqlitedb;Version=3;New=True;Compress=True;");
 ````
-###### to register connection for any compatible RDBMS
+###### to register connection for any other compatible RDBMS
 ````C#
 // SqlCE
 string dbId = DB.RegisterConnectionType<System.Data.SqlServerCe.SqlCeConnection>("connection string", DbServerType.SQLServer);
