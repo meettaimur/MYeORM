@@ -424,7 +424,8 @@ public DateTime? DateModified { get; set; }
 //                  [DbMigrationDrop]
 //                  public string EmaiAddress { get; set; }
 //              }
-//      use ColumnDbEngineDataType Attribute to generate schema for db-engine data types like ColumnDbEngineDataType("timestamp")
+//
+//      set ColumnDbEngineDataType Attribute to generate schema for db-engine data types like ColumnDbEngineDataType("timestamp")
 ````
 ###### script generated for MySQL
 ````SQL
