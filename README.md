@@ -12,7 +12,7 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 * built-in support for SQLServer, Oracle, MySQL, PostgreSQL and SQLite without external dependencies
 * CRUD operations
 * Transactions got better and simple
-* Sequential Guids, RowVersion/Timestamp to resolve Concurrency conflicts
+* Sequential Guids, RowVersion/Timestamp supported to resolve concurrency conflicts
 * DB Migrations management simplified than EF
 * DB Migrations support Provider Data Types
 * Data Listing support tables/views, paging, sorting and filtering
