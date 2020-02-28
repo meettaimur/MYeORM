@@ -12,13 +12,11 @@ conection.Execute("INSERT INTO Company (CompanyId, Title, Email) Values (@Compan
 * built-in support for SQLServer, Oracle, MySQL, PostgreSQL and SQLite without external dependencies
 * CRUD operations
 * Transactions got better and simple
-* Sequential Guid generator
-* DB Migrations management simplified (a different approach than Entity Framework)
-* DB Migrations supported without external dependencies
+* Sequential Guids, RowVersion/Timestamp to resolve Conconcurrency conflicts
+* DB Migrations management simplified than EF
 * DB Migrations support Provider Data Types
 * Data Listing support tables/views, paging, sorting and filtering
-* Transfer Data between databases
-* Connections auto released to Connection Pool
+* Connections auto-released to connection-pool
 * DB Information Schema access
 * Any wire protocol compatible RDBMS supported like, Amazon Aurora, MariaDB, Percona Server, Azure Database for MySQL, Google Cloud SQL for MySQL, YugaByte, TimescaleDB, CockroachDB etc.
 * Any compatible RDBMS supported like VistaDB, SqlCE etc.
@@ -161,6 +159,7 @@ db.Save(company);
 //      use IgnoreForUpdate Attribute - to ignore property for update operation
 //      use IgnoreForInsert Attribute - to ignore property for insert operation
 //      use Ignore Attribute - to ignore property completely
+//      use RowVersionColumn Attribute - to handle concurrency conflicts (row versioning)
 ````
 #### Validations
 ````C#
@@ -425,6 +424,7 @@ public DateTime? DateModified { get; set; }
 //                  [DbMigrationDrop]
 //                  public string EmaiAddress { get; set; }
 //              }
+//      use ColumnDbEngineDataType Attribute to generate schema for db-engine data types like ColumnDbEngineDataType("timestamp")
 ````
 ###### script generated for MySQL
 ````SQL
